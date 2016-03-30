@@ -1,0 +1,16 @@
+[
+{
+  "modid": "gimmestuff",
+  "name": "GimmeStuff",
+  "description": "Adds one-block-providers for items/fluids/power",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["iTitus"],
+  "credits": "The Forge and FML guys",
+  "logoFile": "assets/gimmestuff/textures/logo_small.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

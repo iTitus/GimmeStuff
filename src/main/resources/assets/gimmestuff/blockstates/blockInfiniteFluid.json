@@ -1,10 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "cube_all",
-    "textures": {
-      "all": "gimmestuff:blocks/blockInfiniteFluid"
-    }
+    "model": "gimmestuff:blockInfiniteFluid"
   },
   "variants": {
     "normal": [

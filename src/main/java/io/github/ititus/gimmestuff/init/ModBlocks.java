@@ -2,6 +2,7 @@ package io.github.ititus.gimmestuff.init;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.block.BlockInfiniteFluid;
+import io.github.ititus.gimmestuff.item.ItemBlockInfiniteFluid;
 import io.github.ititus.gimmestuff.tile.TileInfiniteFluid;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -12,7 +13,7 @@ public class ModBlocks {
 
 	public static void preInit() {
 		blockInfiniteFluid = new BlockInfiniteFluid();
-		GameRegistry.registerBlock(blockInfiniteFluid);
+		GameRegistry.registerBlock(blockInfiniteFluid, ItemBlockInfiniteFluid.class);
 		GameRegistry.registerTileEntity(TileInfiniteFluid.class, "tileentity." + GimmeStuff.MOD_ID + ":" + blockInfiniteFluid.getName());
 	}
 

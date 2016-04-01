@@ -11,39 +11,51 @@ import net.minecraftforge.fluids.IFluidHandler;
 
 public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 
-	private static final int CAPACITY = 1024 * FluidContainerRegistry.BUCKET_VOLUME;
+	public static final int CAPACITY = 1024 * FluidContainerRegistry.BUCKET_VOLUME;
 
 	private FluidStack fluidStack;
 
 	public TileInfiniteFluid() {
 	}
 
-	public TileInfiniteFluid(FluidStack fluidStack) {
+	public FluidStack getFluidStack() {
+		return fluidStack;
+	}
+
+	public void setFluidStack(FluidStack fluidStack) {
 		if (fluidStack != null) {
 			this.fluidStack = new FluidStack(fluidStack, CAPACITY / 2);
+		}
+		if (worldObj != null) {
+			worldObj.checkLight(pos);
 		}
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void readFromCustomNBT(NBTTagCompound compound) {
+		super.readFromCustomNBT(compound);
 		FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compound.getCompoundTag("Fluid"));
 		if (fluidStack != null) {
 			this.fluidStack = new FluidStack(fluidStack, CAPACITY / 2);
 		}
+		if (worldObj != null) {
+			worldObj.checkLight(pos);
+		}
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public void writeToCustomNBT(NBTTagCompound compound) {
+		super.writeToCustomNBT(compound);
 		if (fluidStack != null) {
-			fluidStack.writeToNBT(compound.getCompoundTag("Fluid"));
+			NBTTagCompound fluidTag = new NBTTagCompound();
+			fluidStack.writeToNBT(fluidTag);
+			compound.setTag("Fluid", fluidTag);
 		}
 	}
 
 	@Override
 	public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-		if (resource == null || !resource.isFluidEqual(fluidStack)) {
+		if (resource == null || (fluidStack != null && !resource.isFluidEqual(fluidStack))) {
 			return 0;
 		}
 		return resource.amount;
@@ -75,5 +87,12 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 	@Override
 	public FluidTankInfo[] getTankInfo(EnumFacing from) {
 		return new FluidTankInfo[]{new FluidTankInfo(fluidStack, CAPACITY)};
+	}
+
+	public int getLightValue() {
+		if (fluidStack != null) {
+			return fluidStack.getFluid().getLuminosity(fluidStack);
+		}
+		return 0;
 	}
 }

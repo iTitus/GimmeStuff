@@ -1,5 +1,6 @@
 package io.github.ititus.gimmestuff.tile;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
@@ -28,6 +29,8 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 		}
 		if (worldObj != null) {
 			worldObj.checkLight(pos);
+			IBlockState state = worldObj.getBlockState(pos);
+			worldObj.notifyBlockUpdate(pos, state, state, 3);
 		}
 	}
 
@@ -40,6 +43,8 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 		}
 		if (worldObj != null) {
 			worldObj.checkLight(pos);
+			IBlockState state = worldObj.getBlockState(pos);
+			worldObj.notifyBlockUpdate(pos, state, state, 3);
 		}
 	}
 

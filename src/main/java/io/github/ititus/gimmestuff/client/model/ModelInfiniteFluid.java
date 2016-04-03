@@ -1,13 +1,15 @@
 package io.github.ititus.gimmestuff.client.model;
 
 import java.util.List;
-import java.util.Map;
 import javax.vecmath.Matrix4f;
 
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -46,20 +48,24 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModelInfiniteFluid implements IPerspectiveAwareModel {
 
 	private final IPerspectiveAwareModel standardModel;
-	private final IRetexturableModel infiniteFluidModel;
-
-	private final Map<String, IBakedModel> cache = Maps.newHashMap();
-	private final Function<ResourceLocation, TextureAtlasSprite> textureGetter;
-	private final VertexFormat format;
-	private final ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms;
+	private final LoadingCache<String, IBakedModel> modelCache;
 
 	public ModelInfiniteFluid(IPerspectiveAwareModel standardModel, IRetexturableModel infiniteFluidModel, VertexFormat format) {
 		this.standardModel = standardModel;
-		this.infiniteFluidModel = infiniteFluidModel;
 
-		this.textureGetter = location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
-		this.format = format;
-		this.transforms = getTransforms(standardModel);
+		Function<ResourceLocation, TextureAtlasSprite> textureGetter = location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
+		ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms = getTransforms(standardModel);
+
+		this.modelCache = CacheBuilder.newBuilder().build(new CacheLoader<String, IBakedModel>() {
+			public IBakedModel load(String texture) throws Exception {
+				ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
+				builder.put("fluid", texture);
+				IModel retexturedModel = infiniteFluidModel.retexture(builder.build());
+				IModelState modelState = new SimpleModelState(transforms);
+
+				return retexturedModel.bake(modelState, format, textureGetter);
+			}
+		});
 	}
 
 	public static ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> getTransforms(IPerspectiveAwareModel model) {
@@ -74,23 +80,7 @@ public class ModelInfiniteFluid implements IPerspectiveAwareModel {
 	}
 
 	protected IBakedModel getActualModel(String texture) {
-		IBakedModel bakedModel = standardModel;
-
-		if (texture != null) {
-			if (cache.containsKey(texture)) {
-				bakedModel = cache.get(texture);
-			} else {
-				ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
-				builder.put("fluid", texture);
-				IModel retexturedModel = infiniteFluidModel.retexture(builder.build());
-				IModelState modelState = new SimpleModelState(transforms);
-
-				bakedModel = retexturedModel.bake(modelState, format, textureGetter);
-				cache.put(texture, bakedModel);
-			}
-		}
-
-		return bakedModel;
+		return Strings.isNullOrEmpty(texture) ? standardModel : modelCache.getUnchecked(texture);
 	}
 
 	@Override

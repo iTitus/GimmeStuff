@@ -14,6 +14,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -21,20 +22,21 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockInfiniteFluid extends BlockBase {
+public class BlockInfiniteFluid extends BlockContainerBase {
 
 	public static final PropertyFluidStack FLUID = new PropertyFluidStack("fluid");
 
@@ -60,7 +62,7 @@ public class BlockInfiniteFluid extends BlockBase {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
+	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileInfiniteFluid();
 	}
 
@@ -91,17 +93,23 @@ public class BlockInfiniteFluid extends BlockBase {
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileInfiniteFluid) {
-			FluidStack fluidStack = ((TileInfiniteFluid) tile).getFluidStack();
-			String s;
-			if (fluidStack == null) {
-				s = "null";
-			} else {
-				Fluid fluid = fluidStack.getFluid();
-				s = "[fluid=" + (fluid != null ? fluid.getName() : "null") + ", amount=" + fluidStack.amount + "]";
+		if (world.isRemote) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof TileInfiniteFluid) {
+				FluidStack fluidStack = ((TileInfiniteFluid) tile).getFluidStack();
+				if (fluidStack == null) {
+					player.addChatMessage(new TextComponentTranslation("text.gimmestuff:empty"));
+				} else {
+					ITextComponent fluidNameComponent = new TextComponentString(fluidStack.getLocalizedName());
+					EnumRarity rarity = fluidStack.getFluid().getRarity(fluidStack);
+					fluidNameComponent.getStyle().setColor(rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor);
+
+					ITextComponent textComponent = new TextComponentTranslation("text.gimmestuff:fluid", fluidNameComponent);
+					textComponent.getStyle().setColor(TextFormatting.GRAY);
+
+					player.addChatMessage(textComponent);
+				}
 			}
-			player.addChatMessage(new TextComponentString(FMLCommonHandler.instance().getEffectiveSide() + ": " + s));
 		}
 		return true;
 	}
@@ -145,6 +153,11 @@ public class BlockInfiniteFluid extends BlockBase {
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		super.onBlockPlacedBy(world, pos, state, placer, stack);
+	}
+
+	@Override
+	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+		return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer);
 	}
 
 	@Override

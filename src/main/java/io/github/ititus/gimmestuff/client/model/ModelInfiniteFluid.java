@@ -47,20 +47,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ModelInfiniteFluid implements IPerspectiveAwareModel {
 
-	private final IPerspectiveAwareModel standardModel;
+	private final IPerspectiveAwareModel emptyBakedModel;
 	private final LoadingCache<String, IBakedModel> modelCache;
 
-	public ModelInfiniteFluid(IPerspectiveAwareModel standardModel, IRetexturableModel infiniteFluidModel, VertexFormat format) {
-		this.standardModel = standardModel;
+	public ModelInfiniteFluid(IPerspectiveAwareModel emptyBakedModel, IRetexturableModel infiniteFluidUnbakedModel, VertexFormat format) {
+		this.emptyBakedModel = emptyBakedModel;
 
 		Function<ResourceLocation, TextureAtlasSprite> textureGetter = location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
-		ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms = getTransforms(standardModel);
+		ImmutableMap<ItemCameraTransforms.TransformType, TRSRTransformation> transforms = getTransforms(emptyBakedModel);
 
 		this.modelCache = CacheBuilder.newBuilder().build(new CacheLoader<String, IBakedModel>() {
 			public IBakedModel load(String texture) throws Exception {
 				ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 				builder.put("fluid", texture);
-				IModel retexturedModel = infiniteFluidModel.retexture(builder.build());
+				IModel retexturedModel = infiniteFluidUnbakedModel.retexture(builder.build());
 				IModelState modelState = new SimpleModelState(transforms);
 
 				return retexturedModel.bake(modelState, format, textureGetter);
@@ -80,7 +80,7 @@ public class ModelInfiniteFluid implements IPerspectiveAwareModel {
 	}
 
 	protected IBakedModel getActualModel(String texture) {
-		return Strings.isNullOrEmpty(texture) ? standardModel : modelCache.getUnchecked(texture);
+		return Strings.isNullOrEmpty(texture) ? emptyBakedModel : modelCache.getUnchecked(texture);
 	}
 
 	@Override
@@ -98,27 +98,27 @@ public class ModelInfiniteFluid implements IPerspectiveAwareModel {
 
 	@Override
 	public boolean isAmbientOcclusion() {
-		return standardModel.isAmbientOcclusion();
+		return emptyBakedModel.isAmbientOcclusion();
 	}
 
 	@Override
 	public boolean isGui3d() {
-		return standardModel.isGui3d();
+		return emptyBakedModel.isGui3d();
 	}
 
 	@Override
 	public boolean isBuiltInRenderer() {
-		return standardModel.isBuiltInRenderer();
+		return emptyBakedModel.isBuiltInRenderer();
 	}
 
 	@Override
 	public TextureAtlasSprite getParticleTexture() {
-		return standardModel.getParticleTexture();
+		return emptyBakedModel.getParticleTexture();
 	}
 
 	@Override
 	public ItemCameraTransforms getItemCameraTransforms() {
-		return standardModel.getItemCameraTransforms();
+		return emptyBakedModel.getItemCameraTransforms();
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class ModelInfiniteFluid implements IPerspectiveAwareModel {
 
 	@Override
 	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
-		Pair<? extends IBakedModel, Matrix4f> pair = standardModel.handlePerspective(cameraTransformType);
+		Pair<? extends IBakedModel, Matrix4f> pair = emptyBakedModel.handlePerspective(cameraTransformType);
 		return Pair.of(this, pair.getRight());
 	}
 

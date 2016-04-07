@@ -2,6 +2,7 @@ package io.github.ititus.gimmestuff;
 
 import io.github.ititus.gimmestuff.proxy.CommonProxy;
 
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -22,6 +23,10 @@ public class GimmeStuff {
 
 	@SidedProxy(clientSide = GimmeStuff.CLIENT_PROXY, serverSide = GimmeStuff.SERVER_PROXY)
 	public static CommonProxy proxy;
+
+	static {
+		FluidRegistry.enableUniversalBucket();
+	}
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

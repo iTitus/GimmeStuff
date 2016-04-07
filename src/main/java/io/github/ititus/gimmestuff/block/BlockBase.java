@@ -3,12 +3,11 @@ package io.github.ititus.gimmestuff.block;
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.init.ModCreativeTab;
 
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumBlockRenderType;
 
-public abstract class BlockBase extends BlockContainer {
+public class BlockBase extends Block {
 
 	protected final String name;
 
@@ -17,7 +16,11 @@ public abstract class BlockBase extends BlockContainer {
 	}
 
 	public BlockBase(String name, Material material) {
-		super(material);
+		this(name, material, material.getMaterialMapColor());
+	}
+
+	public BlockBase(String name, Material blockMaterial, MapColor mapColor) {
+		super(blockMaterial, mapColor);
 		this.name = name;
 		setUnlocalizedName(GimmeStuff.MOD_ID + ":" + name);
 		setRegistryName(GimmeStuff.MOD_ID, name);
@@ -26,13 +29,9 @@ public abstract class BlockBase extends BlockContainer {
 		setResistance(5);
 	}
 
+
 	public String getName() {
 		return name;
 	}
 
-
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
-	}
 }

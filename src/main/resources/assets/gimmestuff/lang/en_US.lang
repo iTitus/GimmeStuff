@@ -1,0 +1,6 @@
+itemGroup.gimmestuff:main.name=GimmeStuff
+
+tile.gimmestuff:blockInfiniteFluid.name=Infinite Fluid
+
+text.gimmestuff:fluid=Fluid: %s
+text.gimmestuff:empty=Empty

@@ -58,6 +58,14 @@ public class ItemList {
 			items.add(stack);
 		}
 
+		public void addAll(Iterable<? extends ItemStack> stacks) {
+			items.addAll(stacks);
+		}
+
+		public void add(ItemStack... stacks) {
+			items.add(stacks);
+		}
+
 		public ItemList build() {
 			return new ItemList(items.build());
 		}

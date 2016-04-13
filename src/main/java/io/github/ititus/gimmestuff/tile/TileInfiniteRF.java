@@ -58,7 +58,7 @@ public class TileInfiniteRF extends TileBase implements IEnergyReceiver, IEnergy
 
 	@Override
 	public int getEnergyStored(EnumFacing from) {
-		return CAPACITY / 2;
+		return hasEnergy ? CAPACITY / 2 : 0;
 	}
 
 	@Override

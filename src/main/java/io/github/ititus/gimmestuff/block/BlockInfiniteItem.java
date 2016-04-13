@@ -67,7 +67,10 @@ public class BlockInfiniteItem extends BlockContainerBase {
 			if (tile instanceof TileInfiniteItem) {
 				ItemStack itemStack = ((TileInfiniteItem) tile).getStack();
 				if (itemStack == null) {
-					player.addChatMessage(new TextComponentTranslation("text.gimmestuff:empty"));
+					ITextComponent textComponent = new TextComponentTranslation("text.gimmestuff:empty");
+					textComponent.getStyle().setColor(TextFormatting.GRAY);
+
+					player.addChatMessage(textComponent);
 				} else {
 					ITextComponent itemNameComponent = itemStack.getTextComponent();//new TextComponentString(itemStack.getDisplayName());
 					EnumRarity rarity = itemStack.getRarity();

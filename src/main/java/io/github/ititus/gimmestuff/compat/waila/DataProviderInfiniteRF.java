@@ -2,10 +2,9 @@ package io.github.ititus.gimmestuff.compat.waila;
 
 import java.util.List;
 
-import io.github.ititus.gimmestuff.tile.TileInfiniteItem;
+import io.github.ititus.gimmestuff.tile.TileInfiniteRF;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -16,9 +15,8 @@ import net.minecraft.world.World;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.SpecialChars;
 
-public class DataProviderInfiniteItem implements IWailaDataProvider {
+public class DataProviderInfiniteRF implements IWailaDataProvider {
 
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
@@ -34,17 +32,11 @@ public class DataProviderInfiniteItem implements IWailaDataProvider {
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 
 		TileEntity tile = accessor.getTileEntity();
-		if (tile instanceof TileInfiniteItem) {
-			ItemStack stack = ((TileInfiniteItem) tile).getStack();
-			if (stack == null) {
+		if (tile instanceof TileInfiniteRF) {
+			if (!((TileInfiniteRF) tile).hasEnergy()) {
 				currenttip.add(I18n.translateToLocal("text.gimmestuff:empty"));
 			} else {
-				EnumRarity rarity = stack.getRarity();
-				currenttip.add(I18n.translateToLocalFormatted("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + stack.getDisplayName()));
-
-				String s = "";
-				s += SpecialChars.getRenderString("waila.stack", "1", String.valueOf(stack.getItem().getRegistryName()), "1", String.valueOf(stack.getItemDamage()));
-				currenttip.add(s);
+				currenttip.add(I18n.translateToLocal("text.gimmestuff:energy"));
 			}
 		}
 

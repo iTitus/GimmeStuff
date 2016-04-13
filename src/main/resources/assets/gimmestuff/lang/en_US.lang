@@ -1,8 +1,10 @@
 itemGroup.gimmestuff:main.name=GimmeStuff
 
-tile.gimmestuff:blockInfiniteFluid.name=Infinite Fluid
 tile.gimmestuff:blockInfiniteItem.name=Infinite Item
+tile.gimmestuff:blockInfiniteFluid.name=Infinite Fluid
+tile.gimmestuff:blockInfiniteRF.name=Infinite RF
 
 text.gimmestuff:item=Item: %s
 text.gimmestuff:fluid=Fluid: %s
+text.gimmestuff:energy=Has Energy
 text.gimmestuff:empty=Empty

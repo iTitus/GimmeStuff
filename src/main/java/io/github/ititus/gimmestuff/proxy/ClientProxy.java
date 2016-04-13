@@ -32,9 +32,9 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
-		registerItemModel(ModBlocks.blockInfiniteFluid);
 		registerItemModel(ModBlocks.blockInfiniteItem);
-
+		registerItemModel(ModBlocks.blockInfiniteFluid);
+		registerItemModel(ModBlocks.blockInfiniteRF);
 	}
 
 	@Override

@@ -16,9 +16,6 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 
 	private FluidStack fluidStack;
 
-	public TileInfiniteFluid() {
-	}
-
 	public FluidStack getFluidStack() {
 		return fluidStack;
 	}
@@ -100,4 +97,5 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 		}
 		return 0;
 	}
+
 }

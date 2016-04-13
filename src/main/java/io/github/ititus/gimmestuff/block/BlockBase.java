@@ -4,6 +4,7 @@ import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.init.ModCreativeTab;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 
@@ -12,7 +13,7 @@ public class BlockBase extends Block {
 	protected final String name;
 
 	public BlockBase(String name) {
-		this(name, Material.iron);
+		this(name, Material.IRON);
 	}
 
 	public BlockBase(String name, Material material) {
@@ -27,6 +28,9 @@ public class BlockBase extends Block {
 		setCreativeTab(ModCreativeTab.MAIN_TAB);
 		setHardness(5);
 		setResistance(5);
+		if (blockMaterial == Material.IRON) {
+			setSoundType(SoundType.METAL);
+		}
 	}
 
 

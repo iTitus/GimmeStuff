@@ -33,6 +33,7 @@ public class ClientProxy extends CommonProxy {
 		super.preInit(event);
 
 		registerItemModel(ModBlocks.blockInfiniteFluid);
+		registerItemModel(ModBlocks.blockInfiniteItem);
 
 	}
 

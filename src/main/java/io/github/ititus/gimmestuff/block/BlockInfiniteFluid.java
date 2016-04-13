@@ -42,7 +42,6 @@ public class BlockInfiniteFluid extends BlockContainerBase {
 
 	public BlockInfiniteFluid() {
 		super("blockInfiniteFluid");
-		setLightOpacity(0);
 	}
 
 	@Override

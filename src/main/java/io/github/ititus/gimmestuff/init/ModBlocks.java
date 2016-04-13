@@ -17,17 +17,18 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModBlocks {
 
-	public static BlockInfiniteFluid blockInfiniteFluid;
 	public static BlockInfiniteItem blockInfiniteItem;
+	public static BlockInfiniteFluid blockInfiniteFluid;
 
 	public static void preInit() {
-		blockInfiniteFluid = new BlockInfiniteFluid();
-		registerWithCustomItemBlock(blockInfiniteFluid, new ItemBlockInfiniteFluid(blockInfiniteFluid));
-		registerTileEntity(TileInfiniteFluid.class, blockInfiniteFluid.getName());
 
 		blockInfiniteItem = new BlockInfiniteItem();
 		registerWithCustomItemBlock(blockInfiniteItem, new ItemBlockInfiniteItem(blockInfiniteItem));
 		registerTileEntity(TileInfiniteItem.class, blockInfiniteItem.getName());
+
+		blockInfiniteFluid = new BlockInfiniteFluid();
+		registerWithCustomItemBlock(blockInfiniteFluid, new ItemBlockInfiniteFluid(blockInfiniteFluid));
+		registerTileEntity(TileInfiniteFluid.class, blockInfiniteFluid.getName());
 	}
 
 	private static <T extends BlockBase> T registerWithDefaultItemBlock(T block) {

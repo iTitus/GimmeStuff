@@ -21,10 +21,18 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 	}
 
 	public void setFluidStack(FluidStack fluidStack) {
+		boolean b = false;
 		if (fluidStack != null) {
-			this.fluidStack = new FluidStack(fluidStack, CAPACITY / 2);
+			fluidStack = new FluidStack(fluidStack, CAPACITY / 2);
+			if (!fluidStack.isFluidEqual(this.fluidStack)) {
+				this.fluidStack = fluidStack;
+				b = true;
+			}
+		} else if (this.fluidStack != null) {
+			this.fluidStack = null;
+			b = true;
 		}
-		if (worldObj != null) {
+		if (b && worldObj != null) {
 			worldObj.checkLight(pos);
 			IBlockState state = worldObj.getBlockState(pos);
 			worldObj.notifyBlockUpdate(pos, state, state, 3);
@@ -34,15 +42,7 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 	@Override
 	public void readFromCustomNBT(NBTTagCompound compound) {
 		super.readFromCustomNBT(compound);
-		FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(compound.getCompoundTag("Fluid"));
-		if (fluidStack != null) {
-			this.fluidStack = new FluidStack(fluidStack, CAPACITY / 2);
-		}
-		if (worldObj != null) {
-			worldObj.checkLight(pos);
-			IBlockState state = worldObj.getBlockState(pos);
-			worldObj.notifyBlockUpdate(pos, state, state, 3);
-		}
+		setFluidStack(FluidStack.loadFluidStackFromNBT(compound.getCompoundTag("Fluid")));
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 
 	@Override
 	public FluidTankInfo[] getTankInfo(EnumFacing from) {
-		return new FluidTankInfo[]{new FluidTankInfo(fluidStack, CAPACITY)};
+		return new FluidTankInfo[]{new FluidTankInfo(fluidStack != null ? fluidStack.copy() : null, CAPACITY)};
 	}
 
 	public int getLightValue() {

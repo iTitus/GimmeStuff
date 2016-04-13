@@ -1,6 +1,11 @@
 package io.github.ititus.gimmestuff;
 
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.base.Stopwatch;
+
 import io.github.ititus.gimmestuff.proxy.CommonProxy;
+import io.github.ititus.gimmestuff.util.Logger;
 
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -30,17 +35,26 @@ public class GimmeStuff {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		Stopwatch watch = Stopwatch.createStarted();
+		Logger.info("Starting pre-initialization of " + MOD_NAME);
 		proxy.preInit(event);
+		Logger.info("Finished pre-initialization of " + MOD_NAME + " after " + watch.elapsed(TimeUnit.MILLISECONDS) + " ms");
 	}
 
 	@Mod.EventHandler
 	public void preInit(FMLInitializationEvent event) {
+		Stopwatch watch = Stopwatch.createStarted();
+		Logger.info("Starting initialization of " + MOD_NAME);
 		proxy.init(event);
+		Logger.info("Finished initialization of " + MOD_NAME + " after " + watch.elapsed(TimeUnit.MILLISECONDS) + " ms");
 	}
 
 	@Mod.EventHandler
 	public void preInit(FMLPostInitializationEvent event) {
+		Stopwatch watch = Stopwatch.createStarted();
+		Logger.info("Starting post-initialization of " + MOD_NAME);
 		proxy.postInit(event);
+		Logger.info("Finished post-initialization of " + MOD_NAME + " after " + watch.elapsed(TimeUnit.MILLISECONDS) + " ms");
 	}
 
 }

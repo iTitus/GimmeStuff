@@ -74,9 +74,16 @@ public class ClientProxy extends CommonProxy {
 			IModel model = ModelLoaderRegistry.getModel(resourceLocation);
 			if (model instanceof IRetexturableModel) {
 				IRetexturableModel infiniteFluidModel = (IRetexturableModel) model;
-				IBakedModel standard = event.getModelRegistry().getObject(modelResourceLocation);
-				if (standard instanceof IPerspectiveAwareModel) {
-					IBakedModel finalModel = new ModelInfiniteFluid((IPerspectiveAwareModel) standard, infiniteFluidModel, DefaultVertexFormats.BLOCK);
+				IBakedModel inventoryModel = event.getModelRegistry().getObject(modelResourceLocation);
+				if (inventoryModel instanceof IPerspectiveAwareModel) {
+					IBakedModel finalModel = new ModelInfiniteFluid((IPerspectiveAwareModel) inventoryModel, infiniteFluidModel, DefaultVertexFormats.BLOCK);
+					event.getModelRegistry().putObject(modelResourceLocation, finalModel);
+				}
+
+				modelResourceLocation = new ModelResourceLocation(new ResourceLocation(GimmeStuff.MOD_ID, "blockInfiniteFluid"), "normal");
+				IBakedModel normalModel = event.getModelRegistry().getObject(modelResourceLocation);
+				if (normalModel instanceof IPerspectiveAwareModel) {
+					IBakedModel finalModel = new ModelInfiniteFluid((IPerspectiveAwareModel) normalModel, infiniteFluidModel, DefaultVertexFormats.BLOCK);
 					event.getModelRegistry().putObject(modelResourceLocation, finalModel);
 				}
 			}
@@ -84,20 +91,6 @@ public class ClientProxy extends CommonProxy {
 			e.printStackTrace();
 		}
 
-		modelResourceLocation = new ModelResourceLocation(new ResourceLocation(GimmeStuff.MOD_ID, "blockInfiniteFluid"), "normal");
-		try {
-			IModel model = ModelLoaderRegistry.getModel(resourceLocation);
-			if (model instanceof IRetexturableModel) {
-				IRetexturableModel infiniteFluidModel = (IRetexturableModel) model;
-				IBakedModel standard = event.getModelRegistry().getObject(modelResourceLocation);
-				if (standard instanceof IPerspectiveAwareModel) {
-					IBakedModel finalModel = new ModelInfiniteFluid((IPerspectiveAwareModel) standard, infiniteFluidModel, DefaultVertexFormats.BLOCK);
-					event.getModelRegistry().putObject(modelResourceLocation, finalModel);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private ModelResourceLocation getModelResLoc(String path, String variant) {

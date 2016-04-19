@@ -1,6 +1,6 @@
 package io.github.ititus.gimmestuff.inventory;
 
-import io.github.ititus.gimmestuff.tile.TileInfiniteItem;
+import com.google.common.base.Supplier;
 
 import net.minecraft.item.ItemStack;
 
@@ -8,29 +8,33 @@ import net.minecraftforge.items.IItemHandler;
 
 public class ItemHandlerInfiniteSingle implements IItemHandler {
 
-	private final TileInfiniteItem tile;
+	private final Supplier<ItemStack> stackSupplier;
 
-	public ItemHandlerInfiniteSingle(TileInfiniteItem tile) {
-		this.tile = tile;
+	public ItemHandlerInfiniteSingle(Supplier<ItemStack> stackSupplier) {
+		this.stackSupplier = stackSupplier;
 	}
 
 	@Override
 	public int getSlots() {
-		return 1;
+		return 2;
 	}
 
 	public ItemStack getStackCopy() {
-		return ItemStack.copyItemStack(tile.getStack());
+		return ItemStack.copyItemStack(stackSupplier.get());
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
+		if (slot != 0) {
+			return null;
+		}
 		return getStackCopy();
 	}
 
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-		return tile.getStack() == null || ItemStack.areItemsEqual(stack, tile.getStack()) ? null : stack;
+		ItemStack tileStack = stackSupplier.get();
+		return tileStack == null || ItemStack.areItemsEqual(stack, tileStack) ? null : stack;
 	}
 
 	@Override

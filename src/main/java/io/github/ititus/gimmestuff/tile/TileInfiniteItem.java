@@ -26,7 +26,7 @@ public class TileInfiniteItem extends TileBase {
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler != null ? itemHandler : (itemHandler = new ItemHandlerInfiniteSingle(this)));
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler != null ? itemHandler : (itemHandler = new ItemHandlerInfiniteSingle(this::getStack)));
 		}
 		return super.getCapability(capability, facing);
 	}
@@ -39,7 +39,7 @@ public class TileInfiniteItem extends TileBase {
 		boolean b = false;
 		if (stack != null) {
 			stack = stack.copy();
-			stack.stackSize = Math.max(1, stack.getMaxStackSize() / 2);
+			stack.stackSize = stack.getMaxStackSize();
 			if (!ItemStack.areItemStacksEqual(stack, this.stack)) {
 				this.stack = stack;
 				b = true;

@@ -2,13 +2,14 @@ package io.github.ititus.gimmestuff.block;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.init.ModCreativeTab;
+import io.github.ititus.gimmestuff.util.INameable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 
-public class BlockBase extends Block {
+public class BlockBase extends Block implements INameable {
 
 	protected final String name;
 
@@ -33,7 +34,7 @@ public class BlockBase extends Block {
 		}
 	}
 
-
+	@Override
 	public String getName() {
 		return name;
 	}

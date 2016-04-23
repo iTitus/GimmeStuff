@@ -4,7 +4,12 @@ tile.gimmestuff:blockInfiniteItem.name=Infinite Item
 tile.gimmestuff:blockInfiniteFluid.name=Infinite Fluid
 tile.gimmestuff:blockInfiniteRF.name=Infinite RF
 
+item.gimmestuff:itemGodFood.name=Nectar and Ambrosia
+
 text.gimmestuff:item=Item: %s
 text.gimmestuff:fluid=Fluid: %s
 text.gimmestuff:energy=Has Energy
 text.gimmestuff:empty=Empty
+text.gimmestuff:foodLevel=Player's Food Level: %d
+text.gimmestuff:saturationLevel=Player's Saturation Level: %.2f
+text.gimmestuff:exhaustionLevel=Player's Exhaustion Level: %.2f

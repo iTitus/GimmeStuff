@@ -22,7 +22,7 @@ configFile.withReader {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${config.minecraft_version}-${config.mod_version}"
-group= "io.github.ititus.gimmestuff"
+group = "io.github.ititus.gimmestuff"
 archivesBaseName = "GimmeStuff"
 targetCompatibility = "1.8"
 sourceCompatibility = "1.8"
@@ -74,6 +74,15 @@ processResources {
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+
+    // move access transformers to META-INF
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+jar {
+    manifest {
+        attributes 'FMLAT': 'gimmestuff_at.cfg'
     }
 }
 

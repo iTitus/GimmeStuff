@@ -1,12 +1,14 @@
 package io.github.ititus.gimmestuff.proxy;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
-import io.github.ititus.gimmestuff.block.BlockBase;
 import io.github.ititus.gimmestuff.block.BlockInfiniteFluid;
 import io.github.ititus.gimmestuff.client.model.ModelInfiniteFluid;
 import io.github.ititus.gimmestuff.init.ModBlocks;
+import io.github.ititus.gimmestuff.init.ModItems;
 import io.github.ititus.gimmestuff.item.ItemBlockInfiniteFluid;
+import io.github.ititus.gimmestuff.util.INameable;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -35,6 +37,8 @@ public class ClientProxy extends CommonProxy {
 		registerItemModel(ModBlocks.blockInfiniteItem);
 		registerItemModel(ModBlocks.blockInfiniteFluid);
 		registerItemModel(ModBlocks.blockInfiniteRF);
+
+		registerItemModel(ModItems.itemGodFood);
 	}
 
 	@Override
@@ -97,11 +101,15 @@ public class ClientProxy extends CommonProxy {
 		return new ModelResourceLocation(GimmeStuff.MOD_ID + ":" + path, variant);
 	}
 
-	private void registerItemModel(BlockBase block) {
+	private <T extends Block & INameable> void registerItemModel(T block) {
 		registerItemModel(block, 0, getModelResLoc(block.getName(), "inventory"));
 	}
 
-	private void registerItemModel(BlockBase block, int meta, ModelResourceLocation modelResourceLocation) {
+	private <T extends Item & INameable> void registerItemModel(T item) {
+		registerItemModel(item, 0, getModelResLoc(item.getName(), "inventory"));
+	}
+
+	private void registerItemModel(Block block, int meta, ModelResourceLocation modelResourceLocation) {
 		registerItemModel(Item.getItemFromBlock(block), meta, modelResourceLocation);
 	}
 

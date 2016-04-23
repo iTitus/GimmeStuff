@@ -2,6 +2,7 @@ package io.github.ititus.gimmestuff.proxy;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.init.ModBlocks;
+import io.github.ititus.gimmestuff.init.ModItems;
 import io.github.ititus.gimmestuff.recipe.RecipeInfiniteItemContentChanger;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -17,6 +18,7 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
 		ModBlocks.preInit();
+		ModItems.preInit();
 		FMLInterModComms.sendMessage("Waila", "register", "io.github.ititus.gimmestuff.compat.waila.CompatWaila.callbackRegister");
 	}
 

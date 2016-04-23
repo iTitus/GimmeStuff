@@ -1,7 +1,6 @@
 package io.github.ititus.gimmestuff.init;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
-import io.github.ititus.gimmestuff.block.BlockBase;
 import io.github.ititus.gimmestuff.block.BlockInfiniteFluid;
 import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
 import io.github.ititus.gimmestuff.block.BlockInfiniteRF;
@@ -12,7 +11,9 @@ import io.github.ititus.gimmestuff.tile.TileBase;
 import io.github.ititus.gimmestuff.tile.TileInfiniteFluid;
 import io.github.ititus.gimmestuff.tile.TileInfiniteItem;
 import io.github.ititus.gimmestuff.tile.TileInfiniteRF;
+import io.github.ititus.gimmestuff.util.INameable;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
@@ -39,13 +40,13 @@ public class ModBlocks {
 		registerTileEntity(TileInfiniteRF.class, blockInfiniteRF.getName());
 	}
 
-	private static <T extends BlockBase> T registerWithDefaultItemBlock(T block) {
+	private static <T extends Block & INameable> T registerWithDefaultItemBlock(T block) {
 		GameRegistry.register(block);
 		GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		return block;
 	}
 
-	private static <T extends BlockBase> T registerWithCustomItemBlock(T block, Item itemBlock) {
+	private static <T extends Block & INameable> T registerWithCustomItemBlock(T block, Item itemBlock) {
 		GameRegistry.register(block);
 		GameRegistry.register(itemBlock.setRegistryName(block.getRegistryName()));
 		return block;

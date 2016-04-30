@@ -2,9 +2,13 @@ package io.github.ititus.gimmestuff.item;
 
 import java.util.List;
 
+import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
+
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -53,6 +57,16 @@ public class ItemBlockInfiniteItem extends ItemBlock {
 	}
 
 	@Override
+	public int getMetadata(int damage) {
+		return damage;
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return super.getUnlocalizedName(stack) + "." + BlockInfiniteItem.InfiniteItemType.byMeta(stack.getMetadata()).getName();
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		ItemStack itemStack = getStack(stack);
@@ -61,6 +75,14 @@ public class ItemBlockInfiniteItem extends ItemBlock {
 		} else {
 			EnumRarity rarity = itemStack.getRarity();
 			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + itemStack.getDisplayName()));
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> subItems) {
+		for (BlockInfiniteItem.InfiniteItemType type : BlockInfiniteItem.InfiniteItemType.VALUES) {
+			subItems.add(new ItemStack(item, 1, type.getMeta()));
 		}
 	}
 }

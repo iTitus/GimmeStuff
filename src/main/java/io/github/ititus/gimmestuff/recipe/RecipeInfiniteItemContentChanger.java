@@ -1,5 +1,6 @@
 package io.github.ititus.gimmestuff.recipe;
 
+import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.item.ItemBlockInfiniteItem;
 
@@ -18,7 +19,7 @@ public class RecipeInfiniteItemContentChanger implements IRecipe {
 		for (int i = 0; i < inv.getSizeInventory(); ++i) {
 			ItemStack stack = inv.getStackInSlot(i);
 			if (stack != null) {
-				if (stack.getItem() instanceof ItemBlockInfiniteItem) {
+				if (stack.getItem() instanceof ItemBlockInfiniteItem && stack.getMetadata() == BlockInfiniteItem.InfiniteItemType.SINGLE.getMeta()) {
 					hasStacksToFill = true;
 				} else {
 					if (foundStack) {
@@ -40,7 +41,7 @@ public class RecipeInfiniteItemContentChanger implements IRecipe {
 		for (int i = 0; i < inv.getSizeInventory(); ++i) {
 			ItemStack stack = inv.getStackInSlot(i);
 			if (stack != null) {
-				if (stack.getItem() instanceof ItemBlockInfiniteItem) {
+				if (stack.getItem() instanceof ItemBlockInfiniteItem && stack.getMetadata() == BlockInfiniteItem.InfiniteItemType.SINGLE.getMeta()) {
 					stacksToFill++;
 				} else {
 					if (stack1 != null) {
@@ -55,7 +56,7 @@ public class RecipeInfiniteItemContentChanger implements IRecipe {
 			return null;
 		}
 
-		return ItemBlockInfiniteItem.getFilledStack(new ItemStack(ModBlocks.blockInfiniteItem, stacksToFill), stack1);
+		return ItemBlockInfiniteItem.getFilledStack(new ItemStack(ModBlocks.blockInfiniteItem, stacksToFill, BlockInfiniteItem.InfiniteItemType.SINGLE.getMeta()), stack1);
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class RecipeInfiniteItemContentChanger implements IRecipe {
 
 		for (int i = 0; i < stacks.length; i++) {
 			ItemStack stack = inv.getStackInSlot(i);
-			if (stack != null && !(stack.getItem() instanceof ItemBlockInfiniteItem)) {
+			if (stack != null && !(stack.getItem() instanceof ItemBlockInfiniteItem && stack.getMetadata() == BlockInfiniteItem.InfiniteItemType.SINGLE.getMeta())) {
 				stacks[i] = stack.copy();
 				stacks[i].stackSize = 1;
 			}

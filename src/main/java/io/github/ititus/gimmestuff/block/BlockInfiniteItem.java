@@ -11,6 +11,7 @@ import io.github.ititus.gimmestuff.tile.TileInfiniteItem;
 import io.github.ititus.gimmestuff.util.PropertyItemList;
 
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
@@ -34,14 +36,16 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 public class BlockInfiniteItem extends BlockContainerBase {
 
 	public static final PropertyItemList ITEM = new PropertyItemList("item");
+	public static final PropertyEnum<InfiniteItemType> TYPE = PropertyEnum.create("type", InfiniteItemType.class);
 
 	public BlockInfiniteItem() {
 		super("blockInfiniteItem");
+		setDefaultState(blockState.getBaseState().withProperty(TYPE, InfiniteItemType.SINGLE));
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{ITEM});
+		return new ExtendedBlockState(this, new IProperty[]{TYPE}, new IUnlistedProperty[]{ITEM});
 	}
 
 	@Override
@@ -56,8 +60,23 @@ public class BlockInfiniteItem extends BlockContainerBase {
 	}
 
 	@Override
+	public int damageDropped(IBlockState state) {
+		return state.getValue(TYPE).getMeta();
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(TYPE, InfiniteItemType.byMeta(meta));
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(TYPE).getMeta();
+	}
+
+	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileInfiniteItem();
+		return new TileInfiniteItem(state.getValue(TYPE) == InfiniteItemType.MULTI);
 	}
 
 	@Override
@@ -134,5 +153,46 @@ public class BlockInfiniteItem extends BlockContainerBase {
 			return 15;
 		}
 		return 0;
+	}
+
+	public enum InfiniteItemType implements IStringSerializable {
+
+		SINGLE(0, "single"), MULTI(1, "multi");
+
+		public static final InfiniteItemType[] VALUES;
+
+		static {
+			InfiniteItemType[] values = values();
+			VALUES = new InfiniteItemType[values.length];
+			for (InfiniteItemType type : values) {
+				VALUES[type.meta] = type;
+			}
+		}
+
+		private final int meta;
+		private final String name;
+
+		InfiniteItemType(int meta, String name) {
+			this.meta = meta;
+			this.name = name;
+		}
+
+		public static InfiniteItemType byMeta(int meta) {
+			return VALUES[meta < 0 || meta >= VALUES.length ? 0 : meta];
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public String toString() {
+			return getName();
+		}
+
+		public int getMeta() {
+			return meta;
+		}
 	}
 }

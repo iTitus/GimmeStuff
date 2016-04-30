@@ -1,6 +1,7 @@
 itemGroup.gimmestuff:main.name=GimmeStuff
 
-tile.gimmestuff:blockInfiniteItem.name=Infinite Item
+tile.gimmestuff:blockInfiniteItem.single.name=Infinite Item - Single
+tile.gimmestuff:blockInfiniteItem.multi.name=Infinite Item - Multi
 tile.gimmestuff:blockInfiniteFluid.name=Infinite Fluid
 tile.gimmestuff:blockInfiniteRF.name=Infinite RF
 

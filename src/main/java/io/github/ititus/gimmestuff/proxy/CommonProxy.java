@@ -5,6 +5,8 @@ import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
 import io.github.ititus.gimmestuff.recipe.RecipeInfiniteItemContentChanger;
 
+import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
@@ -23,6 +25,10 @@ public class CommonProxy {
 	}
 
 	public void init(FMLInitializationEvent event) {
+
+		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.blockInfiniteItem, 1, 0), new ItemStack(ModBlocks.blockInfiniteItem, 1, 0));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.blockInfiniteItem, 1, 1), new ItemStack(ModBlocks.blockInfiniteItem, 1, 1));
+
 		GameRegistry.addRecipe(new RecipeInfiniteItemContentChanger());
 		RecipeSorter.register(GimmeStuff.MOD_ID + ":infiniteItemContentChanger", RecipeInfiniteItemContentChanger.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 	}

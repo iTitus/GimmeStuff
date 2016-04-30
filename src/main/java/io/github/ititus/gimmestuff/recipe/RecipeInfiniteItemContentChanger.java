@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class RecipeInfiniteItemContentChanger implements IRecipe {
 
 	@Override
-	public boolean matches(InventoryCrafting inv, World worldIn) {
+	public boolean matches(InventoryCrafting inv, World world) {
 		boolean foundStack = false;
 		boolean hasStacksToFill = false;
 

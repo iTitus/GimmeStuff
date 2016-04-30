@@ -41,8 +41,7 @@ public class ItemGodFood extends ItemFood implements INameable {
 		if (foodStats != null) {
 			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:foodLevel", foodStats.getFoodLevel()));
 			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:saturationLevel", foodStats.getSaturationLevel()));
-			// TODO: Fix AT
-			//tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:exhaustionLevel", foodStats.foodExhaustionLevel));
+			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:exhaustionLevel", foodStats.foodExhaustionLevel));
 		}
 
 	}

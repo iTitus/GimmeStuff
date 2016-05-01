@@ -33,7 +33,7 @@ public class ItemHandlerInfiniteMulti implements IItemHandler {
 			return stack;
 		}
 		ItemStack tileStack = itemSupplier.getItemStack(slot / 2);
-		return tileStack == null || ItemStack.areItemsEqual(stack, tileStack) ? null : stack;
+		return tileStack == null || (ItemStack.areItemsEqual(stack, tileStack) && ItemStack.areItemStackTagsEqual(stack, tileStack)) ? null : stack;
 	}
 
 	@Override

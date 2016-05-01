@@ -3,6 +3,7 @@ package io.github.ititus.gimmestuff.item;
 import java.util.List;
 
 import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
+import io.github.ititus.gimmestuff.util.Utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.translation.I18n;
 
 import net.minecraftforge.common.util.Constants;
@@ -25,31 +27,57 @@ public class ItemBlockInfiniteItem extends ItemBlock {
 		setHasSubtypes(true);
 	}
 
-	public static ItemStack getFilledStack(ItemStack toFill, ItemStack stack) {
+	public static ItemStack getFilledStack(ItemStack toFill, ItemStack[] stacks) {
 		toFill = ItemStack.copyItemStack(toFill);
-		if (toFill != null && stack != null) {
-			ItemStack itemStack = stack.copy();
-			itemStack.stackSize = Math.max(1, itemStack.getMaxStackSize() / 2);
+		if (toFill != null && stacks != null && stacks.length > 0) {
 			NBTTagCompound compound = new NBTTagCompound();
 			NBTTagCompound blockEntityTag = new NBTTagCompound();
-			NBTTagCompound itemTag = new NBTTagCompound();
+			NBTTagCompound itemsTag = new NBTTagCompound();
 
-			itemStack.writeToNBT(itemTag);
+			itemsTag.setInteger("size", stacks.length);
+			NBTTagList itemList = new NBTTagList();
+			for (int i = 0; i < stacks.length; i++) {
+				ItemStack stack = stacks[i];
+				if (stack != null) {
+					stack.stackSize = stack.getMaxStackSize();
+					NBTTagCompound tag = new NBTTagCompound();
+					tag.setInteger("index", i);
+					stack.writeToNBT(tag);
+					itemList.appendTag(tag);
+				}
+			}
 
-			blockEntityTag.setTag("Item", itemTag);
+			itemsTag.setTag("ItemList", itemList);
+			blockEntityTag.setTag("Items", itemsTag);
 			compound.setTag("BlockEntityTag", blockEntityTag);
 			toFill.setTagCompound(compound);
 		}
 		return toFill;
 	}
 
-	public static ItemStack getStack(ItemStack stack) {
+	public static ItemStack[] getStacks(ItemStack stack) {
 		if (stack != null && stack.hasTagCompound()) {
 			NBTTagCompound compound = stack.getTagCompound();
 			if (compound.hasKey("BlockEntityTag", Constants.NBT.TAG_COMPOUND)) {
-				NBTTagCompound nbt = compound.getCompoundTag("BlockEntityTag");
-				if (nbt.hasKey("Item", Constants.NBT.TAG_COMPOUND)) {
-					return ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("Item"));
+				NBTTagCompound blockEntityTag = compound.getCompoundTag("BlockEntityTag");
+				if (blockEntityTag.hasKey("Items", Constants.NBT.TAG_COMPOUND)) {
+					NBTTagCompound itemsTag = blockEntityTag.getCompoundTag("Items");
+					ItemStack[] stacks = new ItemStack[itemsTag.getInteger("size")];
+					if (itemsTag.hasKey("ItemList", Constants.NBT.TAG_LIST)) {
+						NBTTagList itemList = itemsTag.getTagList("ItemList", Constants.NBT.TAG_COMPOUND);
+						for (int i = 0; i < itemList.tagCount(); i++) {
+							NBTTagCompound tag = itemList.getCompoundTagAt(i);
+
+							int index = tag.getInteger("index");
+							ItemStack itemStack = ItemStack.loadItemStackFromNBT(tag);
+
+							if (itemStack != null) {
+								itemStack.stackSize = stack.getMaxStackSize();
+								stacks[index] = itemStack;
+							}
+						}
+					}
+					return stacks;
 				}
 			}
 		}
@@ -69,12 +97,29 @@ public class ItemBlockInfiniteItem extends ItemBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
-		ItemStack itemStack = getStack(stack);
-		if (itemStack == null) {
+		ItemStack[] stacks = getStacks(stack);
+		int count = Utils.countNonNull(stacks);
+
+		if (count == 0) {
 			tooltip.add(I18n.translateToLocal("text.gimmestuff:empty"));
+		} else if (count == 1) {
+			for (int i = 0; i < stacks.length; i++) {
+				ItemStack itemStack = stacks[i];
+				if (itemStack != null) {
+					EnumRarity rarity = itemStack.getRarity();
+					tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + itemStack.getDisplayName()));
+					break;
+				}
+			}
 		} else {
-			EnumRarity rarity = itemStack.getRarity();
-			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + itemStack.getDisplayName()));
+			tooltip.add(I18n.translateToLocal("text.gimmestuff:items"));
+			for (int i = 0; i < stacks.length; i++) {
+				ItemStack itemStack = stacks[i];
+				if (itemStack != null) {
+					EnumRarity rarity = itemStack.getRarity();
+					tooltip.add("  - " + (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + itemStack.getDisplayName());
+				}
+			}
 		}
 	}
 

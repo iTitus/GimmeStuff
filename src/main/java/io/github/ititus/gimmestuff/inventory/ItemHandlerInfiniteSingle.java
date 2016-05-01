@@ -30,7 +30,7 @@ public class ItemHandlerInfiniteSingle implements IItemHandler {
 	@Override
 	public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
 		ItemStack tileStack = singleItemSupplier.getItemStack();
-		return tileStack == null || ItemStack.areItemsEqual(stack, tileStack) ? null : stack;
+		return tileStack == null || (ItemStack.areItemsEqual(stack, tileStack) && ItemStack.areItemStackTagsEqual(stack, tileStack)) ? null : stack;
 	}
 
 	@Override

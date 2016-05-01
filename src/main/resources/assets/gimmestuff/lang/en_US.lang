@@ -8,6 +8,7 @@ tile.gimmestuff:blockInfiniteRF.name=Infinite RF
 item.gimmestuff:itemGodFood.name=Nectar and Ambrosia
 
 text.gimmestuff:item=Item: %s
+text.gimmestuff:items=Items:
 text.gimmestuff:fluid=Fluid: %s
 text.gimmestuff:energy=Has Energy
 text.gimmestuff:empty=Empty

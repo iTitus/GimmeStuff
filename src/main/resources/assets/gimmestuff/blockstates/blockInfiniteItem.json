@@ -4,9 +4,10 @@
     "model": "gimmestuff:blockInfiniteItem"
   },
   "variants": {
-    "normal": [
-      {}
-    ],
+    "type": {
+      "single": {},
+      "multi": {}
+    },
     "inventory": {
       "transform": "forge:default-block"
     }

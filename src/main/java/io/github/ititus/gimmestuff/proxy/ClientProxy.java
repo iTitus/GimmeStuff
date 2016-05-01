@@ -2,6 +2,7 @@ package io.github.ititus.gimmestuff.proxy;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.block.BlockInfiniteFluid;
+import io.github.ititus.gimmestuff.client.handler.ClientEventHandler;
 import io.github.ititus.gimmestuff.client.model.ModelInfiniteFluid;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
@@ -22,6 +23,7 @@ import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -34,7 +36,11 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 
+		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
+
 		registerItemModel(ModBlocks.blockInfiniteItem);
+		registerItemModel(ModBlocks.blockInfiniteItem, 1, getModelResLoc(ModBlocks.blockInfiniteItem.getName(), "inventory"));
+
 		registerItemModel(ModBlocks.blockInfiniteFluid);
 		registerItemModel(ModBlocks.blockInfiniteRF);
 

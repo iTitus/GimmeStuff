@@ -17,8 +17,12 @@ public class CompatWaila {
 		Stopwatch watch = Stopwatch.createStarted();
 		Logger.info("Starting initialization of Waila compat");
 
-		registrar.registerBodyProvider(new DataProviderInfiniteItem(), BlockInfiniteItem.class);
+		DataProviderInfiniteItem dataProviderInfiniteItem = new DataProviderInfiniteItem();
+		registrar.registerStackProvider(dataProviderInfiniteItem, BlockInfiniteItem.class);
+		registrar.registerBodyProvider(dataProviderInfiniteItem, BlockInfiniteItem.class);
+
 		registrar.registerBodyProvider(new DataProviderInfiniteFluid(), BlockInfiniteFluid.class);
+
 		registrar.registerBodyProvider(new DataProviderInfiniteRF(), BlockInfiniteRF.class);
 
 		Logger.info("Finished initialization of Waila compat after " + watch.elapsed(TimeUnit.MILLISECONDS) + " ms");

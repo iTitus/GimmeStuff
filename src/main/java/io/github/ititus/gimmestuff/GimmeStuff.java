@@ -17,6 +17,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @Mod(modid = GimmeStuff.MOD_ID, name = GimmeStuff.MOD_NAME, version = GimmeStuff.MOD_VERSION)
 public class GimmeStuff {
 
+	public static final boolean DEBUG = false;
+
 	public static final String MOD_ID = "gimmestuff";
 	public static final String MOD_NAME = "GimmeStuff";
 	public static final String MOD_VERSION = "@MODVERSION@";

@@ -2,7 +2,7 @@
 {
   "modid": "gimmestuff",
   "name": "GimmeStuff",
-  "description": "Adds one-block-providers for items/fluids/power",
+  "description": "Adds one-block-providers for items/fluids/power and other tools not suited for real survival",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

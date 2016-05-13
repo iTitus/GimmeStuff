@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "gimmestuff:blockInfinitePower"
+  },
+  "variants": {
+    "type": {
+      "rf": {
+        "textures": {
+          "all": "gimmestuff:blocks/blockInfiniteRF"
+        }
+      }
+    },
+    "inventory_rf": {
+      "transform": "forge:default-block",
+      "textures": {
+        "all": "gimmestuff:blocks/blockInfiniteRF"
+      }
+    }
+  }
+}

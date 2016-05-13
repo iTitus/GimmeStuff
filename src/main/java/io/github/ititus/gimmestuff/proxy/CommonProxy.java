@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
+import io.github.ititus.gimmestuff.handler.EventHandler;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
 import io.github.ititus.gimmestuff.recipe.RecipeInfiniteItemContentChanger;
@@ -31,14 +32,13 @@ public class CommonProxy {
 	protected final List<Block> blocks = Lists.newArrayList();
 
 	public void preInit(FMLPreInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		ModBlocks.preInit();
 		ModItems.preInit();
 		FMLInterModComms.sendMessage("Waila", "register", "io.github.ititus.gimmestuff.compat.waila.CompatWaila.callbackRegister");
 	}
 
 	public void init(FMLInitializationEvent event) {
-
 		for (BlockInfiniteItem.InfiniteItemType type : BlockInfiniteItem.InfiniteItemType.VALUES) {
 			GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.blockInfiniteItem, 1, type.getMeta()), new ItemStack(ModBlocks.blockInfiniteItem, 1, type.getMeta()));
 		}

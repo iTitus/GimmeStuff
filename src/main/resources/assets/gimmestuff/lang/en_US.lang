@@ -3,7 +3,7 @@ itemGroup.gimmestuff:main.name=GimmeStuff
 tile.gimmestuff:blockInfiniteItem.single.name=Infinite Item - Single
 tile.gimmestuff:blockInfiniteItem.multi.name=Infinite Item - Multi
 tile.gimmestuff:blockInfiniteFluid.name=Infinite Fluid
-tile.gimmestuff:blockInfiniteRF.name=Infinite RF
+tile.gimmestuff:blockInfinitePower.rf.name=Infinite RF
 
 item.gimmestuff:itemGodFood.name=Nectar and Ambrosia
 

@@ -2,6 +2,8 @@ package io.github.ititus.gimmestuff.item;
 
 import java.util.List;
 
+import io.github.ititus.gimmestuff.block.BlockInfinitePower;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,9 +17,9 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBlockInfiniteRF extends ItemBlock {
+public class ItemBlockInfinitePower extends ItemBlock {
 
-	public ItemBlockInfiniteRF(Block block) {
+	public ItemBlockInfinitePower(Block block) {
 		super(block);
 		setHasSubtypes(true);
 	}
@@ -52,6 +54,16 @@ public class ItemBlockInfiniteRF extends ItemBlock {
 	}
 
 	@Override
+	public int getMetadata(int damage) {
+		return damage;
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return super.getUnlocalizedName(stack) + "." + BlockInfinitePower.PowerType.byMeta(stack.getMetadata()).getName();
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		if (!hasEnergy(stack)) {
@@ -64,8 +76,10 @@ public class ItemBlockInfiniteRF extends ItemBlock {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> subItems) {
-		subItems.add(getFilledStack(new ItemStack(item), false));
-		subItems.add(getFilledStack(new ItemStack(item), true));
+		for (BlockInfinitePower.PowerType type : BlockInfinitePower.PowerType.VALUES) {
+			subItems.add(getFilledStack(new ItemStack(item, 1, type.getMeta()), false));
+			subItems.add(getFilledStack(new ItemStack(item, 1, type.getMeta()), true));
+		}
 	}
 
 }

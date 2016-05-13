@@ -8,7 +8,10 @@
       "single": {},
       "multi": {}
     },
-    "inventory": {
+    "inventory_single": {
+      "transform": "forge:default-block"
+    },
+    "inventory_multi": {
       "transform": "forge:default-block"
     }
   }

@@ -6,7 +6,7 @@ import com.google.common.base.Stopwatch;
 
 import io.github.ititus.gimmestuff.block.BlockInfiniteFluid;
 import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
-import io.github.ititus.gimmestuff.block.BlockInfiniteRF;
+import io.github.ititus.gimmestuff.block.BlockInfinitePower;
 import io.github.ititus.gimmestuff.util.Logger;
 
 import mcp.mobius.waila.api.IWailaRegistrar;
@@ -23,7 +23,9 @@ public class CompatWaila {
 
 		registrar.registerBodyProvider(new DataProviderInfiniteFluid(), BlockInfiniteFluid.class);
 
-		registrar.registerBodyProvider(new DataProviderInfiniteRF(), BlockInfiniteRF.class);
+		DataProviderInfinitePower dataProviderInfinitePower = new DataProviderInfinitePower();
+		registrar.registerStackProvider(dataProviderInfinitePower, BlockInfinitePower.class);
+		registrar.registerBodyProvider(dataProviderInfinitePower, BlockInfinitePower.class);
 
 		Logger.info("Finished initialization of Waila compat after " + watch.elapsed(TimeUnit.MILLISECONDS) + " ms");
 	}

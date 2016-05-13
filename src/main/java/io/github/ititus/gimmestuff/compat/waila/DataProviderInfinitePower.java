@@ -2,7 +2,8 @@ package io.github.ititus.gimmestuff.compat.waila;
 
 import java.util.List;
 
-import io.github.ititus.gimmestuff.tile.TileInfiniteRF;
+import io.github.ititus.gimmestuff.init.ModBlocks;
+import io.github.ititus.gimmestuff.tile.TileInfinitePower;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -16,11 +17,11 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 
-public class DataProviderInfiniteRF implements IWailaDataProvider {
+public class DataProviderInfinitePower implements IWailaDataProvider {
 
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		return null;
+		return ModBlocks.blockInfinitePower.getPickBlock(accessor.getBlockState(), accessor.getMOP(), accessor.getWorld(), accessor.getPosition(), accessor.getPlayer());
 	}
 
 	@Override
@@ -32,8 +33,8 @@ public class DataProviderInfiniteRF implements IWailaDataProvider {
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 
 		TileEntity tile = accessor.getTileEntity();
-		if (tile instanceof TileInfiniteRF) {
-			if (!((TileInfiniteRF) tile).hasEnergy()) {
+		if (tile instanceof TileInfinitePower) {
+			if (!((TileInfinitePower) tile).hasEnergy()) {
 				currenttip.add(I18n.translateToLocal("text.gimmestuff:empty"));
 			} else {
 				currenttip.add(I18n.translateToLocal("text.gimmestuff:energy"));

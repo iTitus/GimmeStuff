@@ -1,15 +1,18 @@
 package io.github.ititus.gimmestuff.block;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.google.common.collect.Lists;
 
 import io.github.ititus.gimmestuff.init.ModBlocks;
-import io.github.ititus.gimmestuff.item.ItemBlockInfiniteRF;
+import io.github.ititus.gimmestuff.item.ItemBlockInfinitePower;
+import io.github.ititus.gimmestuff.tile.TileInfinitePower;
 import io.github.ititus.gimmestuff.tile.TileInfiniteRF;
 
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
@@ -33,33 +37,50 @@ import net.minecraftforge.common.property.Properties;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockInfiniteRF extends BlockContainerBase {
+public class BlockInfinitePower extends BlockContainerBase {
 
+	public static final PropertyEnum<PowerType> TYPE = PropertyEnum.create("type", PowerType.class);
 	public static final IUnlistedProperty<Boolean> HAS_ENERGY = new Properties.PropertyAdapter<>(PropertyBool.create("has_energy"));
 
-	public BlockInfiniteRF() {
-		super("blockInfiniteRF");
+	public BlockInfinitePower() {
+		super("blockInfinitePower");
+		setDefaultState(blockState.getBaseState().withProperty(TYPE, PowerType.RF));
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[0], new IUnlistedProperty[]{HAS_ENERGY});
+		return new ExtendedBlockState(this, new IProperty[]{TYPE}, new IUnlistedProperty[]{HAS_ENERGY});
 	}
 
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (state instanceof IExtendedBlockState) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileInfiniteRF) {
-				state = ((IExtendedBlockState) state).withProperty(HAS_ENERGY, ((TileInfiniteRF) tile).hasEnergy());
+			if (tile instanceof TileInfinitePower) {
+				state = ((IExtendedBlockState) state).withProperty(HAS_ENERGY, ((TileInfinitePower) tile).hasEnergy());
 			}
 		}
 		return state;
 	}
 
 	@Override
+	public int damageDropped(IBlockState state) {
+		return state.getValue(TYPE).getMeta();
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(TYPE, PowerType.byMeta(meta));
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(TYPE).getMeta();
+	}
+
+	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileInfiniteRF();
+		return state.getValue(TYPE).getTileSupplier().get();
 	}
 
 	@Override
@@ -82,8 +103,8 @@ public class BlockInfiniteRF extends BlockContainerBase {
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (world.isRemote) {
 			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileInfiniteRF) {
-				if (!((TileInfiniteRF) tile).hasEnergy()) {
+			if (tile instanceof TileInfinitePower) {
+				if (!((TileInfinitePower) tile).hasEnergy()) {
 					ITextComponent textComponent = new TextComponentTranslation("text.gimmestuff:empty");
 					textComponent.getStyle().setColor(TextFormatting.GRAY);
 
@@ -112,11 +133,11 @@ public class BlockInfiniteRF extends BlockContainerBase {
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		List<ItemStack> ret = Lists.newArrayList();
-		ItemStack stack = new ItemStack(ModBlocks.blockInfiniteRF);
+		ItemStack stack = new ItemStack(ModBlocks.blockInfinitePower, 1, damageDropped(state));
 
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileInfiniteRF) {
-			stack = ItemBlockInfiniteRF.getFilledStack(stack, ((TileInfiniteRF) tile).hasEnergy());
+		if (tile instanceof TileInfinitePower) {
+			stack = ItemBlockInfinitePower.getFilledStack(stack, ((TileInfinitePower) tile).hasEnergy());
 		}
 
 		ret.add(stack);
@@ -125,11 +146,11 @@ public class BlockInfiniteRF extends BlockContainerBase {
 
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		ItemStack stack = new ItemStack(ModBlocks.blockInfiniteRF);
+		ItemStack stack = new ItemStack(ModBlocks.blockInfinitePower, 1, damageDropped(state));
 
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileInfiniteRF) {
-			stack = ItemBlockInfiniteRF.getFilledStack(stack, ((TileInfiniteRF) tile).hasEnergy());
+		if (tile instanceof TileInfinitePower) {
+			stack = ItemBlockInfinitePower.getFilledStack(stack, ((TileInfinitePower) tile).hasEnergy());
 		}
 
 		return stack;
@@ -143,10 +164,57 @@ public class BlockInfiniteRF extends BlockContainerBase {
 	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof TileInfiniteRF && ((TileInfiniteRF) tile).hasEnergy()) {
+		if (tile instanceof TileInfinitePower && ((TileInfinitePower) tile).hasEnergy()) {
 			return 15;
 		}
 		return 0;
+	}
+
+	public enum PowerType implements IStringSerializable {
+
+		RF(0, "rf", () -> new TileInfiniteRF());
+
+		public static final PowerType[] VALUES;
+
+		static {
+			PowerType[] _values = values();
+			VALUES = new PowerType[_values.length];
+			for (PowerType type : _values) {
+				VALUES[type.getMeta()] = type;
+			}
+		}
+
+		private final int meta;
+		private final String name;
+		private final Supplier<? extends TileInfinitePower> tileSupplier;
+
+		PowerType(int meta, String name, Supplier<? extends TileInfinitePower> tileSupplier) {
+			this.meta = meta;
+			this.name = name;
+			this.tileSupplier = tileSupplier;
+		}
+
+		public static PowerType byMeta(int meta) {
+			return VALUES[meta < 0 || meta >= VALUES.length ? 0 : meta];
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+
+		public int getMeta() {
+			return meta;
+		}
+
+		@Override
+		public String toString() {
+			return name;
+		}
+
+		public Supplier<? extends TileInfinitePower> getTileSupplier() {
+			return tileSupplier;
+		}
 	}
 
 }

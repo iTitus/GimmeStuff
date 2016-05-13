@@ -1,8 +1,9 @@
 package io.github.ititus.gimmestuff.proxy;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
+import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
+import io.github.ititus.gimmestuff.block.BlockInfinitePower;
 import io.github.ititus.gimmestuff.client.handler.ClientEventHandler;
-import io.github.ititus.gimmestuff.client.model.ModelInfiniteFluid;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
 import io.github.ititus.gimmestuff.util.ColorUtils;
@@ -10,22 +11,13 @@ import io.github.ititus.gimmestuff.util.INameable;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 
-import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientProxy extends CommonProxy {
 
@@ -35,11 +27,15 @@ public class ClientProxy extends CommonProxy {
 
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 
-		registerItemModel(ModBlocks.blockInfiniteItem);
-		registerItemModel(ModBlocks.blockInfiniteItem, 1, getModelResLoc(ModBlocks.blockInfiniteItem.getName(), "inventory"));
+		for (BlockInfiniteItem.InfiniteItemType type : BlockInfiniteItem.InfiniteItemType.VALUES) {
+			registerItemModel(ModBlocks.blockInfiniteItem, type.getMeta(), getModelResLoc(ModBlocks.blockInfiniteItem.getName(), "inventory_" + type.getName()));
+		}
 
 		registerItemModel(ModBlocks.blockInfiniteFluid);
-		registerItemModel(ModBlocks.blockInfiniteRF);
+
+		for (BlockInfinitePower.PowerType type : BlockInfinitePower.PowerType.VALUES) {
+			registerItemModel(ModBlocks.blockInfinitePower, type.getMeta(), getModelResLoc(ModBlocks.blockInfinitePower.getName(), "inventory_" + type.getName()));
+		}
 
 		registerItemModel(ModItems.itemGodFood);
 	}
@@ -53,35 +49,6 @@ public class ClientProxy extends CommonProxy {
 		items.stream().filter(item -> item instanceof ColorUtils.IItemWithColor).forEach(item -> {
 			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ColorUtils.DefaultItemColor.INSTANCE, item);
 		});
-	}
-
-	@SubscribeEvent
-	public void onModelBake(ModelBakeEvent event) {
-
-		ResourceLocation resourceLocation = new ResourceLocation(GimmeStuff.MOD_ID, "block/blockInfiniteFluid");
-		ModelResourceLocation modelResourceLocation = new ModelResourceLocation(new ResourceLocation(GimmeStuff.MOD_ID, "blockInfiniteFluid"), "inventory");
-
-		try {
-			IModel model = ModelLoaderRegistry.getModel(resourceLocation);
-			if (model instanceof IRetexturableModel) {
-				IRetexturableModel infiniteFluidModel = (IRetexturableModel) model;
-				IBakedModel inventoryModel = event.getModelRegistry().getObject(modelResourceLocation);
-				if (inventoryModel instanceof IPerspectiveAwareModel) {
-					IBakedModel finalModel = new ModelInfiniteFluid((IPerspectiveAwareModel) inventoryModel, infiniteFluidModel, DefaultVertexFormats.BLOCK);
-					event.getModelRegistry().putObject(modelResourceLocation, finalModel);
-				}
-
-				modelResourceLocation = new ModelResourceLocation(new ResourceLocation(GimmeStuff.MOD_ID, "blockInfiniteFluid"), "normal");
-				IBakedModel normalModel = event.getModelRegistry().getObject(modelResourceLocation);
-				if (normalModel instanceof IPerspectiveAwareModel) {
-					IBakedModel finalModel = new ModelInfiniteFluid((IPerspectiveAwareModel) normalModel, infiniteFluidModel, DefaultVertexFormats.BLOCK);
-					event.getModelRegistry().putObject(modelResourceLocation, finalModel);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	private ModelResourceLocation getModelResLoc(String path, String variant) {

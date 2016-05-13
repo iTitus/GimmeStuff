@@ -129,7 +129,7 @@ public class BlockInfiniteFluid extends BlockContainerBase implements ColorUtils
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		List<ItemStack> ret = Lists.newArrayList();
-		ItemStack stack = new ItemStack(ModBlocks.blockInfiniteFluid);
+		ItemStack stack = new ItemStack(ModBlocks.blockInfiniteFluid, 1, damageDropped(state));
 
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileInfiniteFluid) {
@@ -142,7 +142,7 @@ public class BlockInfiniteFluid extends BlockContainerBase implements ColorUtils
 
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		ItemStack stack = new ItemStack(ModBlocks.blockInfiniteFluid);
+		ItemStack stack = new ItemStack(ModBlocks.blockInfiniteFluid, 1, damageDropped(state));
 
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileInfiniteFluid) {

@@ -1,12 +1,11 @@
 package io.github.ititus.gimmestuff.proxy;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
-import io.github.ititus.gimmestuff.block.BlockInfiniteFluid;
 import io.github.ititus.gimmestuff.client.handler.ClientEventHandler;
 import io.github.ititus.gimmestuff.client.model.ModelInfiniteFluid;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
-import io.github.ititus.gimmestuff.item.ItemBlockInfiniteFluid;
+import io.github.ititus.gimmestuff.util.ColorUtils;
 import io.github.ititus.gimmestuff.util.INameable;
 
 import net.minecraft.block.Block;
@@ -24,8 +23,6 @@ import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.property.IExtendedBlockState;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -50,28 +47,12 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(
-				(state, world, pos, tintIndex) -> {
-					if (state instanceof IExtendedBlockState) {
-						FluidStack fluidStack = ((IExtendedBlockState) state).getValue(BlockInfiniteFluid.FLUID);
-						if (fluidStack != null) {
-							return fluidStack.getFluid().getColor(fluidStack);
-						}
-					}
-					return -1;
-				},
-				ModBlocks.blockInfiniteFluid
-		);
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(
-				(stack, tintIndex) -> {
-					FluidStack fluidStack = ItemBlockInfiniteFluid.getFluidStack(stack);
-					if (fluidStack != null) {
-						return fluidStack.getFluid().getColor(fluidStack);
-					}
-					return -1;
-				},
-				ModBlocks.blockInfiniteFluid
-		);
+		blocks.stream().filter(block -> block instanceof ColorUtils.IBlockWithColor).forEach(block -> {
+			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(ColorUtils.DefaultBlockColor.INSTANCE, block);
+		});
+		items.stream().filter(item -> item instanceof ColorUtils.IItemWithColor).forEach(item -> {
+			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ColorUtils.DefaultItemColor.INSTANCE, item);
+		});
 	}
 
 	@SubscribeEvent
@@ -122,5 +103,4 @@ public class ClientProxy extends CommonProxy {
 	private void registerItemModel(Item item, int meta, ModelResourceLocation modelResourceLocation) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, modelResourceLocation);
 	}
-
 }

@@ -1,11 +1,20 @@
 package io.github.ititus.gimmestuff.proxy;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
 import io.github.ititus.gimmestuff.recipe.RecipeInfiniteItemContentChanger;
+import io.github.ititus.gimmestuff.tile.TileBase;
+import io.github.ititus.gimmestuff.util.INameable;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -17,6 +26,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.RecipeSorter;
 
 public class CommonProxy {
+
+	protected final List<Item> items = Lists.newArrayList();
+	protected final List<Block> blocks = Lists.newArrayList();
 
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
@@ -36,5 +48,33 @@ public class CommonProxy {
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
+	}
+
+	public <T extends Block & INameable> T registerWithDefaultItemBlock(T block) {
+		GameRegistry.register(block);
+		blocks.add(block);
+		Item itemBlock = new ItemBlock(block).setRegistryName(block.getRegistryName());
+		GameRegistry.register(itemBlock);
+		items.add(itemBlock);
+		return block;
+	}
+
+	public <T extends Block & INameable> T registerWithCustomItemBlock(T block, Item itemBlock) {
+		GameRegistry.register(block);
+		blocks.add(block);
+		itemBlock.setRegistryName(block.getRegistryName());
+		GameRegistry.register(itemBlock);
+		items.add(itemBlock);
+		return block;
+	}
+
+	public void registerTileEntity(Class<? extends TileBase> tileClass, String name) {
+		GameRegistry.registerTileEntity(tileClass, "tileentity." + GimmeStuff.MOD_ID + ":" + name);
+	}
+
+	public <T extends Item & INameable> T registerItem(T item) {
+		GameRegistry.register(item);
+		items.add(item);
+		return item;
 	}
 }

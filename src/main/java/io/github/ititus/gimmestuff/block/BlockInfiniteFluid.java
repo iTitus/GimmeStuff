@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.item.ItemBlockInfiniteFluid;
 import io.github.ititus.gimmestuff.tile.TileInfiniteFluid;
+import io.github.ititus.gimmestuff.util.ColorUtils;
 import io.github.ititus.gimmestuff.util.PropertyFluidStack;
 
 import net.minecraft.block.properties.IProperty;
@@ -35,7 +36,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockInfiniteFluid extends BlockContainerBase {
+public class BlockInfiniteFluid extends BlockContainerBase implements ColorUtils.IBlockWithColor {
 
 	public static final PropertyFluidStack FLUID = new PropertyFluidStack("fluid");
 
@@ -165,4 +166,14 @@ public class BlockInfiniteFluid extends BlockContainerBase {
 		return 0;
 	}
 
+	@Override
+	public int getColor(IBlockState state, IBlockAccess world, BlockPos pos, int tintIndex) {
+		if (state instanceof IExtendedBlockState) {
+			FluidStack fluidStack = ((IExtendedBlockState) state).getValue(BlockInfiniteFluid.FLUID);
+			if (fluidStack != null) {
+				return fluidStack.getFluid().getColor(fluidStack);
+			}
+		}
+		return -1;
+	}
 }

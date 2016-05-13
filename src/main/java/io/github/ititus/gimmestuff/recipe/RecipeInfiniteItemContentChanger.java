@@ -1,5 +1,6 @@
 package io.github.ititus.gimmestuff.recipe;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -13,8 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
-
-import scala.actors.threadpool.Arrays;
 
 public class RecipeInfiniteItemContentChanger implements IRecipe {
 

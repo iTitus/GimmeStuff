@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.google.common.collect.Lists;
 
 import io.github.ititus.gimmestuff.tile.TileInfiniteFluid;
+import io.github.ititus.gimmestuff.util.ColorUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -25,7 +26,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBlockInfiniteFluid extends ItemBlock {
+public class ItemBlockInfiniteFluid extends ItemBlock implements ColorUtils.IItemWithColor {
 
 	public ItemBlockInfiniteFluid(Block block) {
 		super(block);
@@ -81,5 +82,14 @@ public class ItemBlockInfiniteFluid extends ItemBlock {
 		List<Map.Entry<String, Fluid>> fluids = Lists.newArrayList(FluidRegistry.getRegisteredFluids().entrySet());
 		fluids.sort((fluidEntry1, fluidEntry2) -> String.CASE_INSENSITIVE_ORDER.compare(fluidEntry1 != null ? fluidEntry1.getKey() : "", fluidEntry2 != null ? fluidEntry2.getKey() : ""));
 		subItems.addAll(fluids.stream().map(fluidEntry -> getFilledStack(new ItemStack(item), new FluidStack(fluidEntry.getValue(), 0))).collect(Collectors.toList()));
+	}
+
+	@Override
+	public int getColor(ItemStack stack, int tintIndex) {
+		FluidStack fluidStack = getFluidStack(stack);
+		if (fluidStack != null) {
+			return fluidStack.getFluid().getColor(fluidStack);
+		}
+		return -1;
 	}
 }

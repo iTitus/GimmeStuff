@@ -20,7 +20,7 @@ public class GimmeStuff {
 	public static final boolean DEBUG = false;
 
 	public static final String MOD_ID = "gimmestuff";
-	public static final String MOD_NAME = "GimmeStuff";
+	public static final String MOD_NAME = "GimmeStuff - Creative Edition";
 	public static final String MOD_VERSION = "@MODVERSION@";
 	public static final String CLIENT_PROXY = "io.github.ititus.gimmestuff.proxy.ClientProxy";
 	public static final String SERVER_PROXY = "io.github.ititus.gimmestuff.proxy.ServerProxy";

@@ -67,7 +67,7 @@ public class TileInfiniteItem extends TileBase implements IItemSupplier {
 		}
 		if (b && worldObj != null) {
 			IBlockState state = worldObj.getBlockState(pos);
-			worldObj.notifyBlockUpdate(pos, state, state, 3);
+			worldObj.notifyBlockUpdate(pos, state, state, 8);
 		}
 	}
 

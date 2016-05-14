@@ -35,7 +35,7 @@ public class TileInfiniteFluid extends TileBase implements IFluidHandler {
 		if (b && worldObj != null) {
 			worldObj.checkLight(pos);
 			IBlockState state = worldObj.getBlockState(pos);
-			worldObj.notifyBlockUpdate(pos, state, state, 3);
+			worldObj.notifyBlockUpdate(pos, state, state, 8);
 		}
 	}
 

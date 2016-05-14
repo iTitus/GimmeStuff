@@ -17,9 +17,8 @@ public abstract class TileInfinitePower extends TileBase {
 			this.hasEnergy = hasEnergy;
 		}
 		if (b && worldObj != null) {
-			worldObj.checkLight(pos);
 			IBlockState state = worldObj.getBlockState(pos);
-			worldObj.notifyBlockUpdate(pos, state, state, 3);
+			worldObj.notifyBlockUpdate(pos, state, state, 8);
 		}
 	}
 

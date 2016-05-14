@@ -37,7 +37,7 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 
 public class BlockInfiniteItem extends BlockContainerBase {
 
-	public static final PropertyItemList ITEM = new PropertyItemList("item");
+	public static final PropertyItemList ITEM_LIST = new PropertyItemList("item_list");
 	public static final PropertyEnum<InfiniteItemType> TYPE = PropertyEnum.create("type", InfiniteItemType.class);
 
 	public BlockInfiniteItem() {
@@ -47,7 +47,7 @@ public class BlockInfiniteItem extends BlockContainerBase {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new ExtendedBlockState(this, new IProperty[]{TYPE}, new IUnlistedProperty[]{ITEM});
+		return new ExtendedBlockState(this, new IProperty[]{TYPE}, new IUnlistedProperty[]{ITEM_LIST});
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class BlockInfiniteItem extends BlockContainerBase {
 		if (state instanceof IExtendedBlockState) {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TileInfiniteFluid) {
-				state = ((IExtendedBlockState) state).withProperty(ITEM, ((TileInfiniteItem) tile).getItemList());
+				state = ((IExtendedBlockState) state).withProperty(ITEM_LIST, ((TileInfiniteItem) tile).getItemList());
 			}
 		}
 		return state;

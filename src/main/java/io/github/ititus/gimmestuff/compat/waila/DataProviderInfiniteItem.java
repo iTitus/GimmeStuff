@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
@@ -61,7 +62,7 @@ public class DataProviderInfiniteItem implements IWailaDataProvider {
 					ItemStack stack = stacks[i];
 					if (stack != null) {
 						EnumRarity rarity = itemStack.getRarity();
-						currenttip.add("  - " + (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + stack.getDisplayName());
+						currenttip.add("  - " + (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + (stack.hasDisplayName() ? TextFormatting.ITALIC : "") + stack.getDisplayName());
 					}
 				}
 			}

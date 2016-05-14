@@ -2,15 +2,29 @@ package io.github.ititus.gimmestuff.client.handler;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.client.model.ModelInfiniteFluid;
+import io.github.ititus.gimmestuff.init.ModBlocks;
+import io.github.ititus.gimmestuff.tile.TileInfiniteItem;
 import io.github.ititus.gimmestuff.util.JSONUtil;
+import io.github.ititus.gimmestuff.util.Utils;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.IRetexturableModel;
@@ -65,6 +79,61 @@ public class ClientEventHandler {
 			e.printStackTrace();
 		}
 
+	}
+
+	@SubscribeEvent
+	public void onRenderGameOverlayPost(RenderGameOverlayEvent.Post event) {
+		if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) {
+			return;
+		}
+
+		Minecraft mc = Minecraft.getMinecraft();
+		RayTraceResult result = mc.objectMouseOver;
+
+		if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
+			BlockPos pos = result.getBlockPos();
+			IBlockState state = mc.theWorld.getBlockState(pos);
+
+			if (state.getBlock() == ModBlocks.blockInfiniteItem) {
+				TileEntity tile = mc.theWorld.getTileEntity(pos);
+				if (tile instanceof TileInfiniteItem) {
+					renderInfiniteItemHUD(event, (TileInfiniteItem) tile);
+				}
+			}
+		}
+
+	}
+
+	private void renderInfiniteItemHUD(RenderGameOverlayEvent.Post event, TileInfiniteItem tile) {
+		Minecraft mc = Minecraft.getMinecraft();
+		ScaledResolution res = event.getResolution();
+		ItemStack[] stacks = tile.getStacks();
+
+		int count = Utils.countNonNull(stacks);
+		int offsetY = 0;
+
+		if (count > 0) {
+			String itemsText = TextFormatting.GRAY + I18n.translateToLocal("text.gimmestuff:items");
+			mc.fontRendererObj.drawString(itemsText, 2, res.getScaledHeight() / 4 + offsetY, -1);
+			offsetY += mc.fontRendererObj.FONT_HEIGHT;
+			for (int i = 0; i < stacks.length; i++) {
+				ItemStack itemStack = stacks[i];
+				if (itemStack != null) {
+					EnumRarity rarity = itemStack.getRarity();
+					String itemNameString = TextFormatting.GRAY + "-     " + (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + (itemStack.hasDisplayName() ? TextFormatting.ITALIC : "") + itemStack.getDisplayName();
+
+					mc.fontRendererObj.drawString(itemNameString, 2, res.getScaledHeight() / 4 + offsetY + 5, -1);
+
+					int w = mc.fontRendererObj.getStringWidth("-");
+
+					RenderHelper.enableGUIStandardItemLighting();
+					mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, 2 + w + 1, res.getScaledHeight() / 4 + offsetY);
+					RenderHelper.disableStandardItemLighting();
+
+					offsetY += 16;
+				}
+			}
+		}
 	}
 
 }

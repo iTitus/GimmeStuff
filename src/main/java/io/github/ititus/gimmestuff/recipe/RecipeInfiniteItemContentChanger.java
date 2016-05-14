@@ -72,7 +72,7 @@ public class RecipeInfiniteItemContentChanger implements IRecipe {
 		BlockInfiniteItem.InfiniteItemType type = BlockInfiniteItem.InfiniteItemType.byMeta(stackToFill.getMetadata());
 		ItemStack[] existingStacks = ItemBlockInfiniteItem.getStacks(stackToFill);
 
-		if (type == BlockInfiniteItem.InfiniteItemType.SINGLE && (newStacks.size() > 0 || !Utils.containsOnlyNull(existingStacks))) {
+		if (type == BlockInfiniteItem.InfiniteItemType.SINGLE && (newStacks.size() > 1 || !Utils.containsOnlyNull(existingStacks))) {
 			return null;
 		}
 

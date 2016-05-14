@@ -1,6 +1,7 @@
 package io.github.ititus.gimmestuff.block;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Lists;
@@ -80,7 +81,7 @@ public class BlockInfinitePower extends BlockContainerBase {
 
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return state.getValue(TYPE).getTileSupplier().get();
+		return state.getValue(TYPE).getTile();
 	}
 
 	@Override
@@ -105,12 +106,12 @@ public class BlockInfinitePower extends BlockContainerBase {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TileInfinitePower) {
 				if (!((TileInfinitePower) tile).hasEnergy()) {
-					ITextComponent textComponent = new TextComponentTranslation("text.gimmestuff:empty");
+					ITextComponent textComponent = new TextComponentTranslation("text.gimmestuff:noEnergy", state.getValue(TYPE).getReadableName());
 					textComponent.getStyle().setColor(TextFormatting.GRAY);
 
 					player.addChatMessage(textComponent);
 				} else {
-					ITextComponent textComponent = new TextComponentTranslation("text.gimmestuff:energy");
+					ITextComponent textComponent = new TextComponentTranslation("text.gimmestuff:energy", state.getValue(TYPE).getReadableName());
 					textComponent.getStyle().setColor(TextFormatting.GRAY);
 
 					player.addChatMessage(textComponent);
@@ -172,7 +173,7 @@ public class BlockInfinitePower extends BlockContainerBase {
 
 	public enum PowerType implements IStringSerializable {
 
-		RF(0, "rf", () -> new TileInfiniteRF());
+		RF(0, "rf", "RF", () -> new TileInfiniteRF(), () -> true);
 
 		public static final PowerType[] VALUES;
 
@@ -185,13 +186,16 @@ public class BlockInfinitePower extends BlockContainerBase {
 		}
 
 		private final int meta;
-		private final String name;
-		private final Supplier<? extends TileInfinitePower> tileSupplier;
+		private final String name, readableName;
+		private final Supplier<TileInfinitePower> tileSupplier;
+		private final BooleanSupplier activatedSupplier;
 
-		PowerType(int meta, String name, Supplier<? extends TileInfinitePower> tileSupplier) {
+		PowerType(int meta, String name, String readableName, Supplier<TileInfinitePower> tileSupplier, BooleanSupplier activatedSupplier) {
 			this.meta = meta;
 			this.name = name;
+			this.readableName = readableName;
 			this.tileSupplier = tileSupplier;
+			this.activatedSupplier = activatedSupplier;
 		}
 
 		public static PowerType byMeta(int meta) {
@@ -203,6 +207,10 @@ public class BlockInfinitePower extends BlockContainerBase {
 			return name;
 		}
 
+		public String getReadableName() {
+			return readableName;
+		}
+
 		public int getMeta() {
 			return meta;
 		}
@@ -212,8 +220,12 @@ public class BlockInfinitePower extends BlockContainerBase {
 			return name;
 		}
 
-		public Supplier<? extends TileInfinitePower> getTileSupplier() {
-			return tileSupplier;
+		public TileInfinitePower getTile() {
+			return tileSupplier.get();
+		}
+
+		public boolean isActive() {
+			return activatedSupplier.getAsBoolean();
 		}
 	}
 

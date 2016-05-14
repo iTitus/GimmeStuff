@@ -77,8 +77,10 @@ public class ItemBlockInfinitePower extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> subItems) {
 		for (BlockInfinitePower.PowerType type : BlockInfinitePower.PowerType.VALUES) {
-			subItems.add(getFilledStack(new ItemStack(item, 1, type.getMeta()), false));
-			subItems.add(getFilledStack(new ItemStack(item, 1, type.getMeta()), true));
+			if (type.isActive()) {
+				subItems.add(getFilledStack(new ItemStack(item, 1, type.getMeta()), false));
+				subItems.add(getFilledStack(new ItemStack(item, 1, type.getMeta()), true));
+			}
 		}
 	}
 

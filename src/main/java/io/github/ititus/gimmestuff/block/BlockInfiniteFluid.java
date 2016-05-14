@@ -33,6 +33,8 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -92,9 +94,13 @@ public class BlockInfiniteFluid extends BlockContainerBase implements ColorUtils
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (world.isRemote) {
-			TileEntity tile = world.getTileEntity(pos);
-			if (tile instanceof TileInfiniteFluid) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileInfiniteFluid) {
+			//TODO: Fix this for creative players
+			if (FluidUtil.interactWithTank(heldItem, player, (IFluidHandler) tile, side)) {
+				return true;
+			}
+			if (world.isRemote) {
 				FluidStack fluidStack = ((TileInfiniteFluid) tile).getFluidStack();
 				if (fluidStack == null) {
 					ITextComponent textComponent = new TextComponentTranslation("text.gimmestuff:empty");
@@ -111,9 +117,10 @@ public class BlockInfiniteFluid extends BlockContainerBase implements ColorUtils
 
 					player.addChatMessage(textComponent);
 				}
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override

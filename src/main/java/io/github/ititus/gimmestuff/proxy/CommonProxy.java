@@ -9,30 +9,44 @@ import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
 import io.github.ititus.gimmestuff.handler.EventHandler;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
+import io.github.ititus.gimmestuff.init.ModStuffTypes;
+import io.github.ititus.gimmestuff.inventory.container.ContainerInfiniteStuff;
+import io.github.ititus.gimmestuff.lib.GuiIDs;
 import io.github.ititus.gimmestuff.recipe.RecipeInfiniteItemContentChanger;
 import io.github.ititus.gimmestuff.tile.TileBase;
+import io.github.ititus.gimmestuff.tile.TileInfiniteStuff;
 import io.github.ititus.gimmestuff.util.INameable;
+import io.github.ititus.gimmestuff.util.stuff.StuffTypeRegistry;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.RecipeSorter;
 
-public class CommonProxy {
+public class CommonProxy implements IGuiHandler {
 
 	protected final List<Item> items = Lists.newArrayList();
 	protected final List<Block> blocks = Lists.newArrayList();
 
 	public void preInit(FMLPreInitializationEvent event) {
+		StuffTypeRegistry.getStuffTypeRegistry();
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(GimmeStuff.instance, GimmeStuff.proxy);
 		ModBlocks.preInit();
 		ModItems.preInit();
 		FMLInterModComms.sendMessage("Waila", "register", "io.github.ititus.gimmestuff.compat.waila.CompatWaila.callbackRegister");
@@ -45,6 +59,8 @@ public class CommonProxy {
 
 		GameRegistry.addRecipe(new RecipeInfiniteItemContentChanger());
 		RecipeSorter.register(GimmeStuff.MOD_ID + ":infiniteItemContentChanger", RecipeInfiniteItemContentChanger.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+
+		ModStuffTypes.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
@@ -76,5 +92,27 @@ public class CommonProxy {
 		GameRegistry.register(item);
 		items.add(item);
 		return item;
+	}
+
+	@Override
+	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+		BlockPos pos = new BlockPos(x, y, z);
+		IBlockState state = world.getBlockState(pos);
+		TileEntity tile = world.getTileEntity(pos);
+		switch (id) {
+			case GuiIDs.INFINITE_STUFF:
+				if (!(tile instanceof TileInfiniteStuff)) {
+					break;
+				}
+				return new ContainerInfiniteStuff(player.inventory, (TileInfiniteStuff) tile);
+			default:
+				return null;
+		}
+		return null;
+	}
+
+	@Override
+	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
 	}
 }

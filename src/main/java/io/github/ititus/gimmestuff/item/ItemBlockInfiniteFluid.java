@@ -10,6 +10,7 @@ import io.github.ititus.gimmestuff.tile.TileInfiniteFluid;
 import io.github.ititus.gimmestuff.util.ColorUtils;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -17,7 +18,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.client.resources.I18n;
 
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;

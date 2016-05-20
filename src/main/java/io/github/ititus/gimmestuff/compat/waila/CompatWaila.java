@@ -1,14 +1,5 @@
 package io.github.ititus.gimmestuff.compat.waila;
 
-import java.util.concurrent.TimeUnit;
-
-import com.google.common.base.Stopwatch;
-
-import io.github.ititus.gimmestuff.block.BlockInfiniteFluid;
-import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
-import io.github.ititus.gimmestuff.block.BlockInfinitePower;
-import io.github.ititus.gimmestuff.util.Logger;
-
 //import mcp.mobius.waila.api.IWailaRegistrar;
 
 public class CompatWaila {

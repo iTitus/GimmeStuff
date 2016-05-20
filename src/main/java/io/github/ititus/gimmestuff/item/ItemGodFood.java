@@ -6,12 +6,12 @@ import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.init.ModCreativeTab;
 import io.github.ititus.gimmestuff.util.INameable;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.FoodStats;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.relauncher.Side;

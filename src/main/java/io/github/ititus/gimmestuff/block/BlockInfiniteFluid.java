@@ -96,10 +96,6 @@ public class BlockInfiniteFluid extends BlockContainerBase implements ColorUtils
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileInfiniteFluid) {
-			//TODO: Fix this for creative players
-			if (FluidUtil.interactWithTank(heldItem, player, (IFluidHandler) tile, side)) {
-				return true;
-			}
 			if (world.isRemote) {
 				FluidStack fluidStack = ((TileInfiniteFluid) tile).getFluidStack();
 				if (fluidStack == null) {
@@ -118,6 +114,11 @@ public class BlockInfiniteFluid extends BlockContainerBase implements ColorUtils
 					player.addChatMessage(textComponent);
 				}
 				return true;
+			} else {
+				//TODO: Fix this for creative players
+				if (FluidUtil.interactWithTank(heldItem, player, (IFluidHandler) tile, side)) {
+					return true;
+				}
 			}
 		}
 		return false;

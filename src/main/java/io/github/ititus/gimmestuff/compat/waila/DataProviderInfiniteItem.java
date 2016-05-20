@@ -1,21 +1,5 @@
 package io.github.ititus.gimmestuff.compat.waila;
 
-import java.util.List;
-
-import io.github.ititus.gimmestuff.init.ModBlocks;
-import io.github.ititus.gimmestuff.tile.TileInfiniteItem;
-import io.github.ititus.gimmestuff.util.Utils;
-
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.world.World;
-
 //import mcp.mobius.waila.api.IWailaConfigHandler;
 //import mcp.mobius.waila.api.IWailaDataAccessor;
 //import mcp.mobius.waila.api.IWailaDataProvider;

@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
+import io.github.ititus.gimmestuff.handler.ConfigHandler;
 import io.github.ititus.gimmestuff.handler.EventHandler;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
@@ -45,6 +46,7 @@ public class CommonProxy implements IGuiHandler {
 
 	public void preInit(FMLPreInitializationEvent event) {
 		StuffTypeRegistry.getStuffTypeRegistry();
+		ConfigHandler.preInit(event);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(GimmeStuff.instance, GimmeStuff.proxy);
 		ModBlocks.preInit();

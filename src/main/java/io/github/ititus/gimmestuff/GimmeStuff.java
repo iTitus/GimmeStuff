@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = GimmeStuff.MOD_ID, name = GimmeStuff.MOD_NAME, version = GimmeStuff.MOD_VERSION)
+@Mod(modid = GimmeStuff.MOD_ID, name = GimmeStuff.MOD_NAME, version = GimmeStuff.MOD_VERSION, guiFactory = GimmeStuff.GUI_FACTORY)
 public class GimmeStuff {
 
 	public static final boolean DEBUG = false;
@@ -24,6 +24,7 @@ public class GimmeStuff {
 	public static final String MOD_VERSION = "@MODVERSION@";
 	public static final String CLIENT_PROXY = "io.github.ititus.gimmestuff.proxy.ClientProxy";
 	public static final String SERVER_PROXY = "io.github.ititus.gimmestuff.proxy.ServerProxy";
+	public static final String GUI_FACTORY = "io.github.ititus.gimmestuff.client.gui.ModGuiFactory";
 
 	@Mod.Instance
 	public static GimmeStuff instance;

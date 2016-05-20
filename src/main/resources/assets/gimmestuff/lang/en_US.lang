@@ -16,3 +16,4 @@ text.gimmestuff:empty=Empty
 text.gimmestuff:foodLevel=Player's Food Level: %d
 text.gimmestuff:saturationLevel=Player's Saturation Level: %.2f
 text.gimmestuff:exhaustionLevel=Player's Exhaustion Level: %.2f
+text.gimmestuff:config.title=GimmeStuff - Config

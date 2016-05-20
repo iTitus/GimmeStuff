@@ -30,12 +30,13 @@ public abstract class TileInfinitePower extends TileBase {
 	}
 
 	@Override
-	public void writeToCustomNBT(NBTTagCompound compound) {
+	public NBTTagCompound writeToCustomNBT(NBTTagCompound compound) {
 		super.writeToCustomNBT(compound);
 		if (hasEnergy) {
 			NBTTagCompound energyTag = new NBTTagCompound();
 			energyTag.setBoolean("hasEnergy", hasEnergy);
 			compound.setTag("Energy", energyTag);
 		}
+		return compound;
 	}
 }

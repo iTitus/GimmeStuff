@@ -10,17 +10,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fluids.FluidStack;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+//import mcp.mobius.waila.api.IWailaConfigHandler;
+//import mcp.mobius.waila.api.IWailaDataAccessor;
+//import mcp.mobius.waila.api.IWailaDataProvider;
 
-public class DataProviderInfiniteFluid implements IWailaDataProvider {
+public class DataProviderInfiniteFluid /*implements IWailaDataProvider*/ {
 
+	/*
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		return null;
@@ -38,10 +39,10 @@ public class DataProviderInfiniteFluid implements IWailaDataProvider {
 		if (tile instanceof TileInfiniteFluid) {
 			FluidStack fluidStack = ((TileInfiniteFluid) tile).getFluidStack();
 			if (fluidStack == null) {
-				currenttip.add(I18n.translateToLocal("text.gimmestuff:empty"));
+				currenttip.add(I18n.format("text.gimmestuff:empty"));
 			} else {
 				EnumRarity rarity = fluidStack.getFluid().getRarity(fluidStack);
-				currenttip.add(I18n.translateToLocalFormatted("text.gimmestuff:fluid", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + fluidStack.getLocalizedName()));
+				currenttip.add(I18n.format("text.gimmestuff:fluid", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + fluidStack.getLocalizedName()));
 			}
 		}
 
@@ -57,4 +58,5 @@ public class DataProviderInfiniteFluid implements IWailaDataProvider {
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		return null;
 	}
+	*/
 }

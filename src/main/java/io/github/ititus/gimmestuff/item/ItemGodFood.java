@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.FoodStats;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 
 import net.minecraftforge.fml.relauncher.Side;
@@ -39,9 +39,9 @@ public class ItemGodFood extends ItemFood implements INameable {
 
 		FoodStats foodStats = player.getFoodStats();
 		if (foodStats != null) {
-			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:foodLevel", foodStats.getFoodLevel()));
-			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:saturationLevel", foodStats.getSaturationLevel()));
-			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:exhaustionLevel", foodStats.foodExhaustionLevel));
+			tooltip.add(I18n.format("text.gimmestuff:foodLevel", foodStats.getFoodLevel()));
+			tooltip.add(I18n.format("text.gimmestuff:saturationLevel", foodStats.getSaturationLevel()));
+			tooltip.add(I18n.format("text.gimmestuff:exhaustionLevel", foodStats.foodExhaustionLevel));
 		}
 
 	}

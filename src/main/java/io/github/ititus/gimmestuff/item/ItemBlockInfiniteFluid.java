@@ -17,7 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
@@ -68,10 +68,10 @@ public class ItemBlockInfiniteFluid extends ItemBlock implements ColorUtils.IIte
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		FluidStack fluidStack = getFluidStack(stack);
 		if (fluidStack == null) {
-			tooltip.add(I18n.translateToLocal("text.gimmestuff:empty"));
+			tooltip.add(I18n.format("text.gimmestuff:empty"));
 		} else {
 			EnumRarity rarity = fluidStack.getFluid().getRarity(fluidStack);
-			tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:fluid", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + fluidStack.getLocalizedName()));
+			tooltip.add(I18n.format("text.gimmestuff:fluid", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + fluidStack.getLocalizedName()));
 		}
 	}
 

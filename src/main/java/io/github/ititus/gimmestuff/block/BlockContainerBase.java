@@ -26,9 +26,10 @@ public abstract class BlockContainerBase extends BlockBase implements ITileEntit
 		worldIn.removeTileEntity(pos);
 	}
 
-	public boolean onBlockEventReceived(World world, BlockPos pos, IBlockState state, int eventID, int eventParam) {
-		super.onBlockEventReceived(world, pos, state, eventID, eventParam);
+	@Override
+	public boolean eventReceived(IBlockState state, World world, BlockPos pos, int id, int param) {
+		super.eventReceived(state, world, pos, id, param);
 		TileEntity tile = world.getTileEntity(pos);
-		return tile != null && tile.receiveClientEvent(eventID, eventParam);
+		return tile != null && tile.receiveClientEvent(id, param);
 	}
 }

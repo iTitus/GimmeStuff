@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
@@ -67,9 +67,9 @@ public class ItemBlockInfinitePower extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		if (!hasEnergy(stack)) {
-			tooltip.add(I18n.translateToLocal("text.gimmestuff:empty"));
+			tooltip.add(I18n.format("text.gimmestuff:empty"));
 		} else {
-			tooltip.add(I18n.translateToLocal("text.gimmestuff:energy"));
+			tooltip.add(I18n.format("text.gimmestuff:energy"));
 		}
 	}
 

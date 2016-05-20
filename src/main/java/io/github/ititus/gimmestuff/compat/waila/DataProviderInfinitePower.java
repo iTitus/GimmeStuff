@@ -10,15 +10,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+//import mcp.mobius.waila.api.IWailaConfigHandler;
+//import mcp.mobius.waila.api.IWailaDataAccessor;
+//import mcp.mobius.waila.api.IWailaDataProvider;
 
-public class DataProviderInfinitePower implements IWailaDataProvider {
+public class DataProviderInfinitePower /*implements IWailaDataProvider*/ {
 
+	/*
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		return ModBlocks.blockInfinitePower.getPickBlock(accessor.getBlockState(), accessor.getMOP(), accessor.getWorld(), accessor.getPosition(), accessor.getPlayer());
@@ -35,9 +36,9 @@ public class DataProviderInfinitePower implements IWailaDataProvider {
 		TileEntity tile = accessor.getTileEntity();
 		if (tile instanceof TileInfinitePower) {
 			if (!((TileInfinitePower) tile).hasEnergy()) {
-				currenttip.add(I18n.translateToLocal("text.gimmestuff:empty"));
+				currenttip.add(I18n.format("text.gimmestuff:empty"));
 			} else {
-				currenttip.add(I18n.translateToLocal("text.gimmestuff:energy"));
+				currenttip.add(I18n.format("text.gimmestuff:energy"));
 			}
 		}
 
@@ -53,4 +54,5 @@ public class DataProviderInfinitePower implements IWailaDataProvider {
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		return null;
 	}
+	*/
 }

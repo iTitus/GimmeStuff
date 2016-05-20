@@ -14,7 +14,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
@@ -101,18 +101,18 @@ public class ItemBlockInfiniteItem extends ItemBlock {
 		int count = Utils.countNonNull(stacks);
 
 		if (count == 0) {
-			tooltip.add(I18n.translateToLocal("text.gimmestuff:empty"));
+			tooltip.add(I18n.format("text.gimmestuff:empty"));
 		} else if (count == 1) {
 			for (int i = 0; i < stacks.length; i++) {
 				ItemStack itemStack = stacks[i];
 				if (itemStack != null) {
 					EnumRarity rarity = itemStack.getRarity();
-					tooltip.add(I18n.translateToLocalFormatted("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + itemStack.getDisplayName()));
+					tooltip.add(I18n.format("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + itemStack.getDisplayName()));
 					break;
 				}
 			}
 		} else {
-			tooltip.add(I18n.translateToLocal("text.gimmestuff:items"));
+			tooltip.add(I18n.format("text.gimmestuff:items"));
 			for (int i = 0; i < stacks.length; i++) {
 				ItemStack itemStack = stacks[i];
 				if (itemStack != null) {

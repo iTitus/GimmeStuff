@@ -13,15 +13,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+//import mcp.mobius.waila.api.IWailaConfigHandler;
+//import mcp.mobius.waila.api.IWailaDataAccessor;
+//import mcp.mobius.waila.api.IWailaDataProvider;
 
-public class DataProviderInfiniteItem implements IWailaDataProvider {
+public class DataProviderInfiniteItem /*implements IWailaDataProvider*/ {
 
+	/*
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		return ModBlocks.blockInfiniteItem.getPickBlock(accessor.getBlockState(), accessor.getMOP(), accessor.getWorld(), accessor.getPosition(), accessor.getPlayer());
@@ -40,24 +41,24 @@ public class DataProviderInfiniteItem implements IWailaDataProvider {
 			int count = Utils.countNonNull(stacks);
 
 			if (count == 0) {
-				currenttip.add(I18n.translateToLocal("text.gimmestuff:empty"));
+				currenttip.add(I18n.format("text.gimmestuff:empty"));
 			} else if (count == 1) {
 				for (int i = 0; i < stacks.length; i++) {
 					ItemStack stack = stacks[i];
 					if (stack != null) {
 						EnumRarity rarity = stack.getRarity();
-						currenttip.add(I18n.translateToLocalFormatted("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + stack.getDisplayName()));
+						currenttip.add(I18n.format("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + stack.getDisplayName()));
 
-						/*
-						String s = "";
-						s += SpecialChars.getRenderString("waila.stack", "1", String.valueOf(stack.getItem().getRegistryName()), "1", String.valueOf(stack.getItemDamage()));
-						currenttip.add(s);
-						*/
+
+						//String s = "";
+						//s += SpecialChars.getRenderString("waila.stack", "1", String.valueOf(stack.getItem().getRegistryName()), "1", String.valueOf(stack.getItemDamage()));
+						//currenttip.add(s);
+
 						break;
 					}
 				}
 			} else {
-				currenttip.add(I18n.translateToLocal("text.gimmestuff:items"));
+				currenttip.add(I18n.format("text.gimmestuff:items"));
 				for (int i = 0; i < stacks.length; i++) {
 					ItemStack stack = stacks[i];
 					if (stack != null) {
@@ -80,4 +81,5 @@ public class DataProviderInfiniteItem implements IWailaDataProvider {
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		return null;
 	}
+		*/
 }

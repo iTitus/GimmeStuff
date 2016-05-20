@@ -44,7 +44,7 @@ public class GimmeStuff {
 	}
 
 	@Mod.EventHandler
-	public void preInit(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
 		Stopwatch watch = Stopwatch.createStarted();
 		Logger.info("Starting initialization of " + MOD_NAME);
 		proxy.init(event);
@@ -52,7 +52,7 @@ public class GimmeStuff {
 	}
 
 	@Mod.EventHandler
-	public void preInit(FMLPostInitializationEvent event) {
+	public void postInit(FMLPostInitializationEvent event) {
 		Stopwatch watch = Stopwatch.createStarted();
 		Logger.info("Starting post-initialization of " + MOD_NAME);
 		proxy.postInit(event);

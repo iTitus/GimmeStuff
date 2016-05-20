@@ -101,7 +101,7 @@ public class TileInfiniteItem extends TileBase implements IItemSupplier {
 	}
 
 	@Override
-	public void writeToCustomNBT(NBTTagCompound compound) {
+	public NBTTagCompound writeToCustomNBT(NBTTagCompound compound) {
 		super.writeToCustomNBT(compound);
 		NBTTagCompound itemsTag = new NBTTagCompound();
 		itemsTag.setInteger("size", stacks.length);
@@ -117,6 +117,7 @@ public class TileInfiniteItem extends TileBase implements IItemSupplier {
 		}
 		itemsTag.setTag("ItemList", itemList);
 		compound.setTag("Items", itemsTag);
+		return compound;
 	}
 
 	@Override

@@ -6,6 +6,6 @@ public class CoFHAPIProps {
 
 	}
 
-	public static final String VERSION = "1.9R1.3.0";
+	public static final String VERSION = "1.9.4R1.3.0";
 
 }

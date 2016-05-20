@@ -21,7 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -113,7 +113,7 @@ public class ClientEventHandler {
 		int offsetY = 0;
 
 		if (count > 0) {
-			String itemsText = TextFormatting.GRAY + I18n.translateToLocal("text.gimmestuff:items");
+			String itemsText = TextFormatting.GRAY + I18n.format("text.gimmestuff:items");
 			mc.fontRendererObj.drawString(itemsText, 2, res.getScaledHeight() / 4 + offsetY, -1);
 			offsetY += mc.fontRendererObj.FONT_HEIGHT;
 			for (int i = 0; i < stacks.length; i++) {

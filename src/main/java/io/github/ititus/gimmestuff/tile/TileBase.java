@@ -1,8 +1,9 @@
 package io.github.ititus.gimmestuff.tile;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
@@ -16,11 +17,16 @@ public class TileBase extends TileEntity {
 		}
 	}
 
+	@Nullable
 	@Override
-	public Packet<?> getDescriptionPacket() {
-		NBTTagCompound compound = new NBTTagCompound();
-		writeToCustomNBT(compound);
-		return new SPacketUpdateTileEntity(pos, -1, compound);
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(pos, -1, writeToCustomNBT(new NBTTagCompound()));
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		//TODO: Optimize once there is a way around that.
+		return writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
@@ -30,17 +36,18 @@ public class TileBase extends TileEntity {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		writeToCustomNBT(compound);
+		return compound;
 	}
 
 	public void readFromCustomNBT(NBTTagCompound compound) {
 
 	}
 
-	public void writeToCustomNBT(NBTTagCompound compound) {
-
+	public NBTTagCompound writeToCustomNBT(NBTTagCompound compound) {
+		return compound;
 	}
 
 }

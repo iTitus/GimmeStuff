@@ -9,10 +9,11 @@ import io.github.ititus.gimmestuff.block.BlockInfiniteItem;
 import io.github.ititus.gimmestuff.block.BlockInfinitePower;
 import io.github.ititus.gimmestuff.util.Logger;
 
-import mcp.mobius.waila.api.IWailaRegistrar;
+//import mcp.mobius.waila.api.IWailaRegistrar;
 
 public class CompatWaila {
 
+	/*
 	public static void callbackRegister(IWailaRegistrar registrar) {
 		Stopwatch watch = Stopwatch.createStarted();
 		Logger.info("Starting initialization of Waila compat");
@@ -29,5 +30,6 @@ public class CompatWaila {
 
 		Logger.info("Finished initialization of Waila compat after " + watch.elapsed(TimeUnit.MILLISECONDS) + " ms");
 	}
+	*/
 
 }

@@ -10,7 +10,7 @@ import io.github.ititus.gimmestuff.handler.ConfigHandler;
 import io.github.ititus.gimmestuff.handler.EventHandler;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
-import io.github.ititus.gimmestuff.init.ModStuffProviderTypes;
+import io.github.ititus.gimmestuff.init.ModStuffProviders;
 import io.github.ititus.gimmestuff.inventory.container.ContainerInfiniteStuff;
 import io.github.ititus.gimmestuff.lib.GuiIDs;
 import io.github.ititus.gimmestuff.recipe.RecipeInfiniteItemContentChanger;
@@ -62,7 +62,7 @@ public class CommonProxy implements IGuiHandler {
 		GameRegistry.addRecipe(new RecipeInfiniteItemContentChanger());
 		RecipeSorter.register(GimmeStuff.MOD_ID + ":infiniteItemContentChanger", RecipeInfiniteItemContentChanger.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 
-		ModStuffProviderTypes.init();
+		ModStuffProviders.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {

@@ -1,15 +1,14 @@
 package io.github.ititus.gimmestuff.client.gui;
 
-import java.util.Map;
-
-import io.github.ititus.gimmestuff.util.stuff.StuffType;
-import io.github.ititus.gimmestuff.util.stuff.StuffTypeRegistry;
+import io.github.ititus.gimmestuff.util.stuff.StuffProvider;
+import io.github.ititus.gimmestuff.util.stuff.StuffProviderRegistry;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,12 +28,12 @@ public class GuiInfiniteStuff extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		FontRenderer fr = fontRendererObj;
-		IForgeRegistry<StuffType> registry = StuffTypeRegistry.getStuffTypeRegistry();
+		FMLControlledNamespacedRegistry<StuffProvider> registry = StuffProviderRegistry.getStuffProviderRegistry();
 
 		int offsetX = 0;
 
-		for (Map.Entry<ResourceLocation, StuffType> entry : registry.getEntries()) {
-			fr.drawString(entry.getKey().toString(), 0, 0 + offsetX, -1);
+		for (ResourceLocation resourceLocation : registry.getKeys()) {
+			fr.drawString(resourceLocation.toString(), 0, 0 + offsetX, -1);
 			offsetX += fr.FONT_HEIGHT;
 		}
 

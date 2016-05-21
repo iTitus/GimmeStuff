@@ -10,14 +10,14 @@ import io.github.ititus.gimmestuff.handler.ConfigHandler;
 import io.github.ititus.gimmestuff.handler.EventHandler;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.init.ModItems;
-import io.github.ititus.gimmestuff.init.ModStuffTypes;
+import io.github.ititus.gimmestuff.init.ModStuffProviderTypes;
 import io.github.ititus.gimmestuff.inventory.container.ContainerInfiniteStuff;
 import io.github.ititus.gimmestuff.lib.GuiIDs;
 import io.github.ititus.gimmestuff.recipe.RecipeInfiniteItemContentChanger;
 import io.github.ititus.gimmestuff.tile.TileBase;
 import io.github.ititus.gimmestuff.tile.TileInfiniteStuff;
 import io.github.ititus.gimmestuff.util.INameable;
-import io.github.ititus.gimmestuff.util.stuff.StuffTypeRegistry;
+import io.github.ititus.gimmestuff.util.stuff.StuffProviderRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -45,7 +45,7 @@ public class CommonProxy implements IGuiHandler {
 	protected final List<Block> blocks = Lists.newArrayList();
 
 	public void preInit(FMLPreInitializationEvent event) {
-		StuffTypeRegistry.getStuffTypeRegistry();
+		StuffProviderRegistry.getStuffProviderRegistry();
 		ConfigHandler.preInit(event);
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		NetworkRegistry.INSTANCE.registerGuiHandler(GimmeStuff.instance, GimmeStuff.proxy);
@@ -62,7 +62,7 @@ public class CommonProxy implements IGuiHandler {
 		GameRegistry.addRecipe(new RecipeInfiniteItemContentChanger());
 		RecipeSorter.register(GimmeStuff.MOD_ID + ":infiniteItemContentChanger", RecipeInfiniteItemContentChanger.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 
-		ModStuffTypes.init();
+		ModStuffProviderTypes.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {

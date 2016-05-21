@@ -5,28 +5,30 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
+import io.github.ititus.gimmestuff.tile.TileInfiniteStuff;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class StuffConfigurationEntry implements INBTSerializable<NBTTagCompound> {
+public class StuffProviderConfigurationEntry implements INBTSerializable<NBTTagCompound> {
 
 	private final Set<EnumFacing> sides;
-	private StuffType type;
+	private StuffProvider provider;
 
-	public StuffConfigurationEntry() {
+	public StuffProviderConfigurationEntry() {
 		this(null);
 	}
 
-	public StuffConfigurationEntry(StuffType type, Collection<EnumFacing> sides) {
-		this.type = type;
+	public StuffProviderConfigurationEntry(StuffProvider provider, Collection<EnumFacing> sides) {
+		this.provider = provider;
 		this.sides = sides != null && sides.size() > 0 ? EnumSet.copyOf(sides) : EnumSet.noneOf(EnumFacing.class);
 	}
 
-	public StuffConfigurationEntry(StuffType type, EnumFacing... sides) {
-		this.type = type;
+	public StuffProviderConfigurationEntry(StuffProvider provider, EnumFacing... sides) {
+		this.provider = provider;
 		this.sides = sides != null && sides.length > 0 ? EnumSet.copyOf(Arrays.asList(sides)) : EnumSet.noneOf(EnumFacing.class);
 	}
 
@@ -34,16 +36,16 @@ public class StuffConfigurationEntry implements INBTSerializable<NBTTagCompound>
 		return sides;
 	}
 
-	public StuffType getType() {
-		return type;
+	public StuffProvider getProvider() {
+		return provider;
 	}
 
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound compound = new NBTTagCompound();
 
-		if (type != null) {
-			compound.setString("type", type.getRegistryName().toString());
+		if (provider != null) {
+			compound.setString("provider", provider.getRegistryName().toString());
 		}
 
 		int[] array = new int[sides.size()];
@@ -58,12 +60,18 @@ public class StuffConfigurationEntry implements INBTSerializable<NBTTagCompound>
 
 	@Override
 	public void deserializeNBT(NBTTagCompound compound) {
-		type = StuffTypeRegistry.getStuffTypeRegistry().getValue(new ResourceLocation(compound.getString("type")));
+		provider = StuffProviderRegistry.getStuffProviderRegistry().getValue(new ResourceLocation(compound.getString("provider")));
 
 		sides.clear();
 		int[] array = compound.getIntArray("sides");
 		for (int side : array) {
 			sides.add(EnumFacing.getFront(side));
+		}
+	}
+
+	public void update(TileInfiniteStuff tile, StuffProviderConfiguration configuration) {
+		if (provider != null) {
+			provider.update(tile, configuration, this);
 		}
 	}
 }

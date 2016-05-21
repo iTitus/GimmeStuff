@@ -1,18 +1,19 @@
 package io.github.ititus.gimmestuff.tile;
 
-import io.github.ititus.gimmestuff.util.stuff.StuffConfiguration;
+import io.github.ititus.gimmestuff.util.stuff.StuffProviderConfiguration;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ITickable;
 
-public class TileInfiniteStuff extends TileBase {
+public class TileInfiniteStuff extends TileBase implements ITickable {
 
-	private final StuffConfiguration configuration;
+	private final StuffProviderConfiguration configuration;
 
 	public TileInfiniteStuff() {
-		this.configuration = new StuffConfiguration();
+		this.configuration = new StuffProviderConfiguration();
 	}
 
-	public StuffConfiguration getConfiguration() {
+	public StuffProviderConfiguration getConfiguration() {
 		return configuration;
 	}
 
@@ -25,5 +26,12 @@ public class TileInfiniteStuff extends TileBase {
 	public NBTTagCompound writeToCustomNBT(NBTTagCompound compound) {
 		compound.setTag("configuration", configuration.serializeNBT());
 		return compound;
+	}
+
+	@Override
+	public void update() {
+		if (!worldObj.isRemote) {
+			configuration.update(this);
+		}
 	}
 }

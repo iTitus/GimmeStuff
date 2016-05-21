@@ -9,7 +9,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

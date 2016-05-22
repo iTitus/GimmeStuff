@@ -81,27 +81,27 @@ public class ModuleConfigurationEntry implements INBTSerializable<NBTTagCompound
 	}
 
 	public boolean fill(EnumFacing from, FluidStack resource, boolean doFill, TileInfiniteStuff tile, ModuleConfiguration configuration) {
-		return module != null && module.fill(from, resource, doFill, tile, configuration, this);
+		return module != null && sides.contains(from) && module.fill(from, resource, doFill, tile, configuration, this);
 	}
 
 	public boolean drain(EnumFacing from, FluidStack resource, boolean doDrain, TileInfiniteStuff tile, ModuleConfiguration configuration) {
-		return module != null && module.drain(from, resource, doDrain, tile, configuration, this);
+		return module != null && sides.contains(from) && module.drain(from, resource, doDrain, tile, configuration, this);
 	}
 
 	public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain, TileInfiniteStuff tile, ModuleConfiguration configuration) {
-		return module != null ? module.drain(from, maxDrain, doDrain, tile, configuration, this) : null;
+		return module != null && sides.contains(from) ? module.drain(from, maxDrain, doDrain, tile, configuration, this) : null;
 	}
 
 	public boolean canFill(EnumFacing from, Fluid fluid, TileInfiniteStuff tile, ModuleConfiguration configuration) {
-		return module != null && module.canFill(from, fluid, tile, configuration, this);
+		return module != null && sides.contains(from) && module.canFill(from, fluid, tile, configuration, this);
 	}
 
 	public boolean canDrain(EnumFacing from, Fluid fluid, TileInfiniteStuff tile, ModuleConfiguration configuration) {
-		return module != null && module.canDrain(from, fluid, tile, configuration, this);
+		return module != null && sides.contains(from) && module.canDrain(from, fluid, tile, configuration, this);
 	}
 
 	public void addTankInfo(EnumFacing from, List<FluidTankInfo> list, TileInfiniteStuff tile, ModuleConfiguration configuration) {
-		if (module != null) {
+		if (module != null && sides.contains(from)) {
 			module.addTankInfo(from, list, tile, configuration, this);
 		}
 	}

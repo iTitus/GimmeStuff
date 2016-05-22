@@ -1,7 +1,7 @@
 package io.github.ititus.gimmestuff.client.gui;
 
-import io.github.ititus.gimmestuff.util.stuff.module.Module;
 import io.github.ititus.gimmestuff.util.stuff.ModuleRegistry;
+import io.github.ititus.gimmestuff.util.stuff.module.Module;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;

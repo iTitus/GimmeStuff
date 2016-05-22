@@ -103,8 +103,7 @@ public class ItemBlockInfiniteItem extends ItemBlock {
 		if (count == 0) {
 			tooltip.add(I18n.format("text.gimmestuff:empty"));
 		} else if (count == 1) {
-			for (int i = 0; i < stacks.length; i++) {
-				ItemStack itemStack = stacks[i];
+			for (ItemStack itemStack : stacks) {
 				if (itemStack != null) {
 					EnumRarity rarity = itemStack.getRarity();
 					tooltip.add(I18n.format("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + itemStack.getDisplayName()));
@@ -113,8 +112,7 @@ public class ItemBlockInfiniteItem extends ItemBlock {
 			}
 		} else {
 			tooltip.add(I18n.format("text.gimmestuff:items"));
-			for (int i = 0; i < stacks.length; i++) {
-				ItemStack itemStack = stacks[i];
+			for (ItemStack itemStack : stacks) {
 				if (itemStack != null) {
 					EnumRarity rarity = itemStack.getRarity();
 					tooltip.add("  - " + (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + itemStack.getDisplayName());

@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiModConfig extends GuiConfig {
 
 	public GuiModConfig(GuiScreen parentScreen) {
-		super(parentScreen, ConfigHandler.getConfiguration().getCategoryNames().stream().map(ConfigHandler.getConfiguration()::getCategory).filter(configCategory -> configCategory != null && !configCategory.isChild() && configCategory.showInGui()).map(configCategory -> new ConfigElement(configCategory)).collect(Collectors.toList()), GimmeStuff.MOD_ID, false, false, I18n.format("text.gimmestuff:config.title"));
+		super(parentScreen, ConfigHandler.getConfiguration().getCategoryNames().stream().map(ConfigHandler.getConfiguration()::getCategory).filter(configCategory -> configCategory != null && !configCategory.isChild() && configCategory.showInGui()).map(ConfigElement::new).collect(Collectors.toList()), GimmeStuff.MOD_ID, false, false, I18n.format("text.gimmestuff:config.title"));
 	}
 
 }

@@ -54,12 +54,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		blocks.stream().filter(block -> block instanceof ColorUtils.IBlockWithColor).forEach(block -> {
-			Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(ColorUtils.DefaultBlockColor.INSTANCE, block);
-		});
-		items.stream().filter(item -> item instanceof ColorUtils.IItemWithColor).forEach(item -> {
-			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ColorUtils.DefaultItemColor.INSTANCE, item);
-		});
+		blocks.stream().filter(block -> block instanceof ColorUtils.IBlockWithColor).forEach(block -> Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(ColorUtils.DefaultBlockColor.INSTANCE, block));
+		items.stream().filter(item -> item instanceof ColorUtils.IItemWithColor).forEach(item -> Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ColorUtils.DefaultItemColor.INSTANCE, item));
 	}
 
 	private ModelResourceLocation getModelResLoc(String path, String variant) {

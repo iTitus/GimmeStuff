@@ -38,6 +38,7 @@ import net.minecraftforge.common.property.Properties;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SuppressWarnings("ALL")
 public class BlockInfinitePower extends BlockContainerBase {
 
 	public static final PropertyEnum<PowerType> TYPE = PropertyEnum.create("type", PowerType.class);
@@ -173,7 +174,7 @@ public class BlockInfinitePower extends BlockContainerBase {
 
 	public enum PowerType implements IStringSerializable {
 
-		RF(0, "rf", "RF", () -> new TileInfiniteRF(), () -> true);
+		RF(0, "rf", "RF", TileInfiniteRF::new, () -> true);
 
 		public static final PowerType[] VALUES;
 

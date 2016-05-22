@@ -95,8 +95,7 @@ public class BlockInfiniteItem extends BlockContainerBase {
 
 					player.addChatMessage(textComponent);
 				} else if (count == 1) {
-					for (int i = 0; i < stacks.length; i++) {
-						ItemStack itemStack = stacks[i];
+					for (ItemStack itemStack : stacks) {
 						if (itemStack != null) {
 							ITextComponent itemNameComponent = itemStack.getTextComponent();
 							EnumRarity rarity = itemStack.getRarity();
@@ -115,8 +114,7 @@ public class BlockInfiniteItem extends BlockContainerBase {
 
 					player.addChatMessage(textComponent);
 
-					for (int i = 0; i < stacks.length; i++) {
-						ItemStack itemStack = stacks[i];
+					for (ItemStack itemStack : stacks) {
 						if (itemStack != null) {
 							ITextComponent stringComponent = new TextComponentString("  - ");
 							stringComponent.getStyle().setColor(TextFormatting.GRAY);

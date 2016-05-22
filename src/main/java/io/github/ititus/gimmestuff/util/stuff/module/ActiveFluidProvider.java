@@ -4,7 +4,7 @@ import io.github.ititus.gimmestuff.tile.TileInfiniteStuff;
 import io.github.ititus.gimmestuff.util.stuff.ModuleConfiguration;
 import io.github.ititus.gimmestuff.util.stuff.ModuleConfigurationEntry;
 
-public class ActiveFluidProvider extends FluidModuleBase {
+public class ActiveFluidProvider extends PassiveFluidProvider {
 
 	public ActiveFluidProvider() {
 		super("fluidProviderActive");

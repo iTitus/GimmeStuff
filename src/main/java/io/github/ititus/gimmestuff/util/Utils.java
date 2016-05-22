@@ -13,8 +13,8 @@ public class Utils {
 	public static <T> int countNonNull(T[] array) {
 		int count = 0;
 		if (array != null) {
-			for (int i = 0; i < array.length; i++) {
-				if (array[i] != null) {
+			for (T element : array) {
+				if (element != null) {
 					count++;
 				}
 			}

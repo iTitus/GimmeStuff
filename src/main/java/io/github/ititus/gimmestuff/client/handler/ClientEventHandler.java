@@ -2,6 +2,7 @@ package io.github.ititus.gimmestuff.client.handler;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.client.model.ModelInfiniteFluid;
+import io.github.ititus.gimmestuff.handler.ConfigHandler;
 import io.github.ititus.gimmestuff.init.ModBlocks;
 import io.github.ititus.gimmestuff.tile.TileInfiniteItem;
 import io.github.ititus.gimmestuff.util.JSONUtil;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -36,7 +38,7 @@ public class ClientEventHandler {
 
 	@SubscribeEvent
 	public void onItemTooltip(ItemTooltipEvent event) {
-		if (GimmeStuff.DEBUG && (event.isShowAdvancedItemTooltips() || Minecraft.getMinecraft().gameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak)) && event.getItemStack() != null && event.getItemStack().hasTagCompound()) {
+		if (ConfigHandler.showNBT && (event.isShowAdvancedItemTooltips() || GameSettings.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak)) && event.getItemStack() != null && event.getItemStack().hasTagCompound()) {
 			event.getToolTip().add("NBT:");
 			try {
 				String jsonString = JSONUtil.getJSONString(event.getItemStack().getTagCompound());
@@ -116,8 +118,7 @@ public class ClientEventHandler {
 			String itemsText = TextFormatting.GRAY + I18n.format("text.gimmestuff:items");
 			mc.fontRendererObj.drawString(itemsText, 2, res.getScaledHeight() / 4 + offsetY, -1);
 			offsetY += mc.fontRendererObj.FONT_HEIGHT;
-			for (int i = 0; i < stacks.length; i++) {
-				ItemStack itemStack = stacks[i];
+			for (ItemStack itemStack : stacks) {
 				if (itemStack != null) {
 					EnumRarity rarity = itemStack.getRarity();
 					String itemNameString = TextFormatting.GRAY + "-     " + (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + (itemStack.hasDisplayName() ? TextFormatting.ITALIC : "") + itemStack.getDisplayName();

@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
 
 public final class ModuleRegistry {
 
-	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(GimmeStuff.MOD_ID, "stuffModule");
+	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(GimmeStuff.MOD_ID, "module");
 
 	private static final ModuleRegistry INSTANCE = new ModuleRegistry();
 

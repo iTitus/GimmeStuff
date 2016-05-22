@@ -1,6 +1,7 @@
 package io.github.ititus.gimmestuff.util.stuff;
 
 import io.github.ititus.gimmestuff.GimmeStuff;
+import io.github.ititus.gimmestuff.util.stuff.module.Module;
 
 import net.minecraft.util.ResourceLocation;
 

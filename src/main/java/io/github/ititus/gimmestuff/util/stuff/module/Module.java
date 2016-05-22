@@ -1,6 +1,9 @@
-package io.github.ititus.gimmestuff.util.stuff;
+package io.github.ititus.gimmestuff.util.stuff.module;
 
 import io.github.ititus.gimmestuff.tile.TileInfiniteStuff;
+import io.github.ititus.gimmestuff.util.stuff.EnumModuleType;
+import io.github.ititus.gimmestuff.util.stuff.ModuleConfiguration;
+import io.github.ititus.gimmestuff.util.stuff.ModuleConfigurationEntry;
 
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 

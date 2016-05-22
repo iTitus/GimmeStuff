@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import io.github.ititus.gimmestuff.tile.TileInfiniteStuff;
+import io.github.ititus.gimmestuff.util.stuff.module.Module;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;

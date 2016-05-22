@@ -1,19 +1,19 @@
 package io.github.ititus.gimmestuff.tile;
 
-import io.github.ititus.gimmestuff.util.stuff.StuffProviderConfiguration;
+import io.github.ititus.gimmestuff.util.stuff.ModuleConfiguration;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 
 public class TileInfiniteStuff extends TileBase implements ITickable {
 
-	private final StuffProviderConfiguration configuration;
+	private final ModuleConfiguration configuration;
 
 	public TileInfiniteStuff() {
-		this.configuration = new StuffProviderConfiguration();
+		this.configuration = new ModuleConfiguration();
 	}
 
-	public StuffProviderConfiguration getConfiguration() {
+	public ModuleConfiguration getConfiguration() {
 		return configuration;
 	}
 

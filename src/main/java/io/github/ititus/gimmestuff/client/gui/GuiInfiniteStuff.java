@@ -1,7 +1,7 @@
 package io.github.ititus.gimmestuff.client.gui;
 
-import io.github.ititus.gimmestuff.util.stuff.StuffProvider;
-import io.github.ititus.gimmestuff.util.stuff.StuffProviderRegistry;
+import io.github.ititus.gimmestuff.util.stuff.Module;
+import io.github.ititus.gimmestuff.util.stuff.ModuleRegistry;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -27,12 +27,12 @@ public class GuiInfiniteStuff extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		FontRenderer fr = fontRendererObj;
-		FMLControlledNamespacedRegistry<StuffProvider> registry = StuffProviderRegistry.getStuffProviderRegistry();
+		FMLControlledNamespacedRegistry<Module> registry = ModuleRegistry.getModuleRegistry();
 
 		int offsetX = 0;
 
 		for (ResourceLocation resourceLocation : registry.getKeys()) {
-			fr.drawString(resourceLocation.toString(), 0, 0 + offsetX, -1);
+			fr.drawString(resourceLocation.toString(), 0, offsetX, -1);
 			offsetX += fr.FONT_HEIGHT;
 		}
 

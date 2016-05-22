@@ -13,22 +13,22 @@ import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class StuffProviderConfigurationEntry implements INBTSerializable<NBTTagCompound> {
+public class ModuleConfigurationEntry implements INBTSerializable<NBTTagCompound> {
 
 	private final Set<EnumFacing> sides;
-	private StuffProvider provider;
+	private Module module;
 
-	public StuffProviderConfigurationEntry() {
+	public ModuleConfigurationEntry() {
 		this(null);
 	}
 
-	public StuffProviderConfigurationEntry(StuffProvider provider, Collection<EnumFacing> sides) {
-		this.provider = provider;
+	public ModuleConfigurationEntry(Module module, Collection<EnumFacing> sides) {
+		this.module = module;
 		this.sides = sides != null && sides.size() > 0 ? EnumSet.copyOf(sides) : EnumSet.noneOf(EnumFacing.class);
 	}
 
-	public StuffProviderConfigurationEntry(StuffProvider provider, EnumFacing... sides) {
-		this.provider = provider;
+	public ModuleConfigurationEntry(Module module, EnumFacing... sides) {
+		this.module = module;
 		this.sides = sides != null && sides.length > 0 ? EnumSet.copyOf(Arrays.asList(sides)) : EnumSet.noneOf(EnumFacing.class);
 	}
 
@@ -36,16 +36,16 @@ public class StuffProviderConfigurationEntry implements INBTSerializable<NBTTagC
 		return sides;
 	}
 
-	public StuffProvider getProvider() {
-		return provider;
+	public Module getModule() {
+		return module;
 	}
 
 	@Override
 	public NBTTagCompound serializeNBT() {
 		NBTTagCompound compound = new NBTTagCompound();
 
-		if (provider != null) {
-			compound.setString("provider", provider.getRegistryName().toString());
+		if (module != null) {
+			compound.setString("module", module.getRegistryName().toString());
 		}
 
 		int[] array = new int[sides.size()];
@@ -60,7 +60,7 @@ public class StuffProviderConfigurationEntry implements INBTSerializable<NBTTagC
 
 	@Override
 	public void deserializeNBT(NBTTagCompound compound) {
-		provider = StuffProviderRegistry.getStuffProviderRegistry().getValue(new ResourceLocation(compound.getString("provider")));
+		module = ModuleRegistry.getModuleRegistry().getValue(new ResourceLocation(compound.getString("module")));
 
 		sides.clear();
 		int[] array = compound.getIntArray("sides");
@@ -69,9 +69,9 @@ public class StuffProviderConfigurationEntry implements INBTSerializable<NBTTagC
 		}
 	}
 
-	public void update(TileInfiniteStuff tile, StuffProviderConfiguration configuration) {
-		if (provider != null) {
-			provider.update(tile, configuration, this);
+	public void update(TileInfiniteStuff tile, ModuleConfiguration configuration) {
+		if (module != null) {
+			module.update(tile, configuration, this);
 		}
 	}
 }

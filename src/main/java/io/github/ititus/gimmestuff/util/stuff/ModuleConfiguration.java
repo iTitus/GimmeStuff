@@ -12,15 +12,15 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class StuffProviderConfiguration implements INBTSerializable<NBTTagCompound> {
+public class ModuleConfiguration implements INBTSerializable<NBTTagCompound> {
 
-	private final List<StuffProviderConfigurationEntry> entries;
+	private final List<ModuleConfigurationEntry> entries;
 
-	public StuffProviderConfiguration() {
+	public ModuleConfiguration() {
 		this.entries = Lists.newArrayList();
 	}
 
-	public List<StuffProviderConfigurationEntry> getEntries() {
+	public List<ModuleConfigurationEntry> getEntries() {
 		return entries;
 	}
 
@@ -29,7 +29,7 @@ public class StuffProviderConfiguration implements INBTSerializable<NBTTagCompou
 		NBTTagCompound compound = new NBTTagCompound();
 
 		NBTTagList tagList = new NBTTagList();
-		for (StuffProviderConfigurationEntry entry : entries) {
+		for (ModuleConfigurationEntry entry : entries) {
 			tagList.appendTag(entry.serializeNBT());
 		}
 		compound.setTag("entries", tagList);
@@ -42,7 +42,7 @@ public class StuffProviderConfiguration implements INBTSerializable<NBTTagCompou
 		entries.clear();
 		NBTTagList tagList = compound.getTagList("entries", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < tagList.tagCount(); i++) {
-			StuffProviderConfigurationEntry entry = new StuffProviderConfigurationEntry();
+			ModuleConfigurationEntry entry = new ModuleConfigurationEntry();
 			entry.deserializeNBT(tagList.getCompoundTagAt(i));
 			entries.add(entry);
 		}

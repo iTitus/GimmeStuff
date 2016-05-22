@@ -1,6 +1,6 @@
 package io.github.ititus.gimmestuff.util.stuff;
 
-public enum EnumStuffProviderType {
+public enum EnumModuleType {
 
 	FLUID, ITEM, POWER
 

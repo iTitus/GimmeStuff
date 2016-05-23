@@ -6,6 +6,7 @@ import io.github.ititus.gimmestuff.GimmeStuff;
 import io.github.ititus.gimmestuff.lib.GuiIDs;
 import io.github.ititus.gimmestuff.tile.TileInfiniteStuff;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockInfiniteStuff extends BlockContainerBase {
@@ -33,5 +35,21 @@ public class BlockInfiniteStuff extends BlockContainerBase {
 			player.openGui(GimmeStuff.instance, GuiIDs.INFINITE_STUFF, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
+	}
+
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileInfiniteStuff) {
+			((TileInfiniteStuff) tile).updateNeighbors();
+		}
+	}
+
+	@Override
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileInfiniteStuff) {
+			((TileInfiniteStuff) tile).updateNeighbors();
+		}
 	}
 }

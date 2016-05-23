@@ -21,11 +21,11 @@ public class PassiveFluidProvider extends FluidModuleBase {
 
 	@Override
 	public boolean drain(EnumFacing from, FluidStack resource, boolean doDrain, TileInfiniteStuff tile, ModuleConfiguration configuration, ModuleConfigurationEntry entry) {
-		return matches(resource);
+		return entry.matches(resource);
 	}
 
 	@Override
 	public boolean canDrain(EnumFacing from, Fluid fluid, TileInfiniteStuff tile, ModuleConfiguration configuration, ModuleConfigurationEntry entry) {
-		return matches(fluid);
+		return entry.matches(fluid);
 	}
 }

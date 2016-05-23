@@ -36,4 +36,11 @@ public class Utils {
 		}
 	}
 
+	public static <T> void clear(T[] array) {
+		if (array != null) {
+			for (int i = 0; i < array.length; i++) {
+				array[i] = null;
+			}
+		}
+	}
 }

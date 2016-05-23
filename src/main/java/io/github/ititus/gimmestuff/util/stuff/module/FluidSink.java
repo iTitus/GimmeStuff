@@ -13,15 +13,16 @@ public class FluidSink extends FluidModuleBase {
 
 	public FluidSink() {
 		super("fluidSink");
+		this.canBlacklist = true;
 	}
 
 	@Override
 	public boolean fill(EnumFacing from, FluidStack resource, boolean doFill, TileInfiniteStuff tile, ModuleConfiguration configuration, ModuleConfigurationEntry entry) {
-		return matches(resource);
+		return entry.matches(resource);
 	}
 
 	@Override
 	public boolean canFill(EnumFacing from, Fluid fluid, TileInfiniteStuff tile, ModuleConfiguration configuration, ModuleConfigurationEntry entry) {
-		return matches(fluid);
+		return entry.matches(fluid);
 	}
 }

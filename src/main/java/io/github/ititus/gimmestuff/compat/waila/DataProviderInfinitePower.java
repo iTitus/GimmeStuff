@@ -1,12 +1,24 @@
 package io.github.ititus.gimmestuff.compat.waila;
 
-//import mcp.mobius.waila.api.IWailaConfigHandler;
-//import mcp.mobius.waila.api.IWailaDataAccessor;
-//import mcp.mobius.waila.api.IWailaDataProvider;
+import java.util.List;
 
-public class DataProviderInfinitePower /*implements IWailaDataProvider*/ {
+import io.github.ititus.gimmestuff.init.ModBlocks;
+import io.github.ititus.gimmestuff.tile.TileInfinitePower;
 
-	/*
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaDataProvider;
+
+public class DataProviderInfinitePower implements IWailaDataProvider {
+
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		return ModBlocks.blockInfinitePower.getPickBlock(accessor.getBlockState(), accessor.getMOP(), accessor.getWorld(), accessor.getPosition(), accessor.getPlayer());
@@ -41,5 +53,5 @@ public class DataProviderInfinitePower /*implements IWailaDataProvider*/ {
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		return null;
 	}
-	*/
+
 }

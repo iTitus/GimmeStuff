@@ -1,12 +1,27 @@
 package io.github.ititus.gimmestuff.compat.waila;
 
-//import mcp.mobius.waila.api.IWailaConfigHandler;
-//import mcp.mobius.waila.api.IWailaDataAccessor;
-//import mcp.mobius.waila.api.IWailaDataProvider;
+import java.util.List;
 
-public class DataProviderInfiniteItem /*implements IWailaDataProvider*/ {
+import io.github.ititus.gimmestuff.init.ModBlocks;
+import io.github.ititus.gimmestuff.tile.TileInfiniteItem;
+import io.github.ititus.gimmestuff.util.Utils;
 
-	/*
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
+
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaDataProvider;
+
+public class DataProviderInfiniteItem implements IWailaDataProvider {
+
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		return ModBlocks.blockInfiniteItem.getPickBlock(accessor.getBlockState(), accessor.getMOP(), accessor.getWorld(), accessor.getPosition(), accessor.getPlayer());
@@ -32,7 +47,6 @@ public class DataProviderInfiniteItem /*implements IWailaDataProvider*/ {
 					if (stack != null) {
 						EnumRarity rarity = stack.getRarity();
 						currenttip.add(I18n.format("text.gimmestuff:item", (rarity != null ? rarity.rarityColor : EnumRarity.COMMON.rarityColor) + stack.getDisplayName()));
-
 
 						//String s = "";
 						//s += SpecialChars.getRenderString("waila.stack", "1", String.valueOf(stack.getItem().getRegistryName()), "1", String.valueOf(stack.getItemDamage()));
@@ -65,5 +79,5 @@ public class DataProviderInfiniteItem /*implements IWailaDataProvider*/ {
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		return null;
 	}
-		*/
+
 }

@@ -81,7 +81,9 @@ public class TileInfiniteStuff extends TileBase implements ITickable, IFluidHand
 	}
 
 	public void updateNeighbors() {
-		this.updateNeighbors = true;
+		if (worldObj == null || !worldObj.isRemote) {
+			this.updateNeighbors = true;
+		}
 	}
 
 	public TileEntity[] getNeighborTiles() {

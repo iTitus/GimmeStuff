@@ -67,9 +67,9 @@ public class ItemBlockInfinitePower extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		if (!hasEnergy(stack)) {
-			tooltip.add(I18n.format("text.gimmestuff:empty"));
+			tooltip.add(I18n.format("text.gimmestuff:noEnergy", BlockInfinitePower.PowerType.byMeta(stack.getMetadata()).getReadableName()));
 		} else {
-			tooltip.add(I18n.format("text.gimmestuff:energy"));
+			tooltip.add(I18n.format("text.gimmestuff:energy", BlockInfinitePower.PowerType.byMeta(stack.getMetadata()).getReadableName()));
 		}
 	}
 
